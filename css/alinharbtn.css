@@ -1,0 +1,51 @@
+﻿.div-btnbloquear{
+    align-self:flex-end;
+}
+
+.div-input{
+    margin:0;
+}
+
+.buttonverde {
+    padding: 5px 8px;
+    background-color: #FFFFFF;
+    color: #3b7b92;
+    border-radius: 7px;
+    border: 2px solid #3b7b92;
+    font-size: 1rem;
+    transition-duration: 0.4s;
+    text-decoration: none;
+}
+
+    .buttonverde:hover {
+        background-color: #29336b;
+        border: 2px solid #3b7b92;
+        color: #ffffff;
+    }
+
+.buttonazul {
+    padding: 5px 8px;
+    background-color: #FFFFFF;
+    color: #29336b;
+    border-radius: 7px;
+    border: 2px solid #29336b;
+    font-size: 1rem;
+    transition-duration: 0.4s;
+    text-decoration: none;
+}
+
+    .buttonazul:hover {
+        background-color: #3b7b92;
+        border: 2px solid #29336b;
+        color: #ffffff;
+    }
+
+.div-btntab{
+    display:flex;
+    justify-content:center;
+    margin-top:10px;
+}
+
+.hidden {
+    display: none;
+}

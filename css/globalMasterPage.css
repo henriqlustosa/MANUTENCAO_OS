@@ -1,0 +1,121 @@
+﻿:root {
+    --azulHspm: #29336b;
+    --azulHspmTransparencia: rgba(41,51,107,0.8);
+    --verdeHspm: #3b7b92;
+    --branco: #ffffff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+/*Header*/
+header{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+}
+
+.headerTop {
+    width: 100%;
+    background-color: var(--azulHspm);
+    padding: 0.2rem;
+}
+
+.imgHeaderHspm {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 45px;
+    width: auto;
+    z-index: 2;
+    transform: translateY(-50%);
+}
+
+.titleHeader{
+    text-align:center;
+    color: var(--branco);
+    font-size: 1.5rem;
+}
+
+.titleHeaderToPhone{
+    display:none;
+}
+
+.imgHeaderPmsp {
+    margin-right: .5rem;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    height: 45px;
+    width: auto;
+    z-index: 2;
+    transform: translateY(-50%);
+}
+
+.headerNomeSistema {
+    text-align: center;
+    color: var(--branco);
+    background-color: var(--azulHspmTransparencia);
+}
+
+.nomeDoSistema{
+    font-size: 1.2rem;
+    padding:.2rem;
+}
+
+/*Área do conteudo*/
+.content {
+    width: 100%;
+}
+
+/*Quando tiver um título da página*/
+.titleContent{
+    font-size:1.5rem;
+    text-align:center;
+    padding:1rem 0;
+    color:var(--azulHspm);
+    text-decoration: underline var(--verdeHspm) 2px;
+
+}
+
+/*Footer*/
+footer{
+    background-color: var(--azulHspm);
+    color: var(--branco);
+    position:absolute;
+    bottom:0;
+    width: 100%;
+}
+
+footer > p{
+    text-align: center;
+    font-size: 0.9rem;
+    padding: .2rem;
+}
+
+/*Para telas pequenas*/
+@media (max-width: 1440px) {
+}
+
+/*Para dispositivos móveis*/
+
+@media (max-width: 470px){
+    .imgHeaderHspm{
+        display:none;
+    }
+
+    .titleHeaderToPhone {
+        display: flex;
+        font-size: 2rem;
+        color: var(--branco);
+        letter-spacing: .1rem;
+        justify-content: center;
+    }
+
+    .titleHeader {
+        display: none;
+    }
+
+    .imgHeaderPmsp{
+        display:none;
+    }
+}
+

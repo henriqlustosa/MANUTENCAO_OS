@@ -1,0 +1,80 @@
+﻿:root {
+    --azulHspm: #29336b;
+    --azulHspmTransparencia: rgba(41,51,107,0.8);
+    --azulHspmTransparenciaMenu: rgba(41,51,107,0.6);
+    --verdeHspm: #3b7b92;
+    --branco: #ffffff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.menu {
+    width: 100%;
+    background-color: var(--azulHspmTransparenciaMenu);
+    display: flex;
+    justify-content: center;
+}
+
+.dropdownmenu ul, .dropdownmenu li{
+    margin:0;
+    padding:0
+}
+
+.dropdownmenu ul {
+    list-style: none;
+    width: 100%;
+}
+
+.dropdownmenu li {
+    float: left;
+    position: relative;
+    width: auto;
+}
+
+.dropdownmenu a {
+    color: var(--branco);
+    display: block;
+    font: 1rem sans-serif;
+    padding: 8px 25px;
+    text-align: center;
+    text-decoration: none;
+    -webkit-transition: all .25s ease;
+    -moz-transition: all .25s ease;
+    -ms-transition: all .25s ease;
+    -o-transition: all .25s ease;
+    transition: all .25s ease;
+}
+
+.dropdownmenu li:hover a {
+    background: var(--azulHspm);
+}
+
+.submenu {
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 35px;
+    visibility: hidden;
+    z-index: 1;
+}
+
+li:hover ul.submenu {
+    opacity: 1;
+    top: 40px; /* adjust this as per top nav padding top & bottom comes */
+    visibility: visible;
+}
+
+.submenu ul{
+     z-index: 500;
+}
+
+.submenu li {
+    float: none;
+    width: max-content;
+}
+
+.submenu a {
+    width:auto;
+    background-color: #000000;
+    border-bottom: .5px var(--branco) solid;
+}
+

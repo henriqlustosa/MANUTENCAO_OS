@@ -1,0 +1,23 @@
+
+      //  $('#<%= txbQuantidade.ClientID %>').keypress(function (e) {
+        //    var a = [];
+      //      var k = e.which;
+
+      //      for (i = 48; i < 58; i++)
+    //            a.push(i);
+
+            // allow a max of 1 decimal point to be entered
+
+  //          if (!(a.indexOf(k) >= 0)) e.preventDefault();
+
+
+      //  });
+
+
+ $('#<%= txbQuantidade.ClientID %>').on('change', function () {
+    
+     var get_price = document.getElementById('<%= txbQuantidade.ClientID %>').value;
+    
+     var set_price = parseFloat(get_price).toFixed(2);
+     $('#<%= txbQuantidade.ClientID %>').val(set_price);
+ });

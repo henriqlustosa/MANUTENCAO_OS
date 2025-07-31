@@ -1,0 +1,92 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="pt-br">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/Logo_HSPM_.png" type="image/x-icon" />
+    <%--    <link href="css/masterPage.css" rel="stylesheet" />--%>
+    <link href="bootstrap5/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <%--    <link href="css/teste.css" rel="stylesheet" />--%>
+    <link href="css/masterPage.css?v=1" rel="stylesheet" />
+    <link href="css/teste.css?v=1" rel="stylesheet" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <header class="fixed-top space-header">
+            <div>
+                <a href="../aberto/PaginaInicial.aspx">
+                    <img class="img-hspm" src="../img/Logo_HSPM_Branco_com%20fundo%20azul-01.jpg" />
+                </a>
+            </div>
+            <div>
+                <h4 class="title-header">HOSPITAL DO SERVIDOR PÚBLICO MUNICIPAL - HSPM</h4>
+                <%--<h6 style="background-color: red">Ambiente de Teste</h6>--%>
+            </div>
+            <div>
+                <a href="https://www.areaprivada.prefeitura.sp.gov.br/PortalPMSP/PortalPMSP/Portal/PMSPprt001.tp" target="_blank">
+                    <img class="img-prefeitura" src="../img/Logo%20branco%20com%20fundo%20azul-01.jpg" />
+                </a>
+            </div>
+        </header>
+        <main>
+            <aside class="space-menu flex-column">
+                <div>
+                    <div id="menu">
+                        <ul class="list-unstyled">
+                            <li class="space-item">
+                                
+                            <li class="space-item">
+                                <a href="../adm/CadastroDeUsuario.aspx" class="nav-link px-0">                                   
+                                    <span class="ms-1 d-none d-sm-inline p-menu label-menu">Cadastrar Usuário</span>
+                                </a>
+                            </li> 
+                                ReceberOS
+                                 <li class="space-item">
+                                <a href="../manutencao/ReceberOS.aspx" class="nav-link px-0">                                   
+                                    <span class="ms-1 d-none d-sm-inline p-menu label-menu">Receber Os</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                      <div class="div-loggon">
+                            <asp:LoginStatus runat="server" class="ms-1 d-none d-sm-inline p-menu label-menu text-decoration-none" LogoutAction="RedirectToLoginPage" LoginText="SAIR DO SISTEMA"></asp:LoginStatus>
+                        </div>
+              <%--      <div class="space-login">
+                        <div>
+                            <asp:LoginName ID="LoginName1" runat="server" CssClass="label-menu" />
+                            
+                        </div>
+                        <br />                 
+
+                        <div class="div-loggon">
+                            <asp:LoginStatus runat="server" class="ms-1 d-none d-sm-inline p-menu label-menu text-decoration-none" LogoutAction="RedirectToLoginPage"></asp:LoginStatus>
+                        </div>
+
+                    </div>--%>
+                </div>
+            </aside>
+         
+            <section class="space-content">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+                <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                </asp:ContentPlaceHolder>
+            </section>
+        </main>
+        <footer class="space-footer fixed-bottom">
+            <p>Desenvolvido pelo setor de informática do HSPM - hspminformatica@hspm.sp.gov.br</p> 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <h5> Nome:<asp:Label ID="LabelNome" runat="server" Text="Label"></asp:Label></h5>
+        </footer>
+        <script src="bootstrap5/dist/js/bootstrap.min.js"></script>
+    </form>
+</body>
+</html>

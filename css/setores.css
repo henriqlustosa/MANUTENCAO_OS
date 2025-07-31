@@ -1,0 +1,48 @@
+﻿.div-setores{
+    width:100%;
+    display:inline-flex;
+    justify-content:center;
+}
+
+.btn-cadastrar {
+    padding: 5px 10px;
+    border: 2px solid #3b7b92;
+    border-radius: 10px;
+    /*background-color: #29336b;*/
+    background-color: #ffffff;
+    color: #3b7b92;
+    margin-bottom: 10px;
+    font-weight: bold;
+    margin:0;
+}
+    .btn-cadastrar:hover {
+        border: 2px solid #29336b;
+        background-color: #3b7b92;
+        color: #ffffff;
+    }
+
+.btn-excluir {
+    padding: 5px 10px;
+    border: 2px solid #29336b;
+    border-radius: 10px;
+    /*background-color: #29336b;*/
+    background-color: #ffffff;
+    color: #29336b;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+    .btn-excluir:hover {
+        border: 2px solid #3b7b92;
+        background-color: #29336b;
+        color: #ffffff;
+    }
+
+.div-list{
+    display:grid;
+    justify-content:center;
+}
+
+.list-setor{
+    display:contents;
+}
