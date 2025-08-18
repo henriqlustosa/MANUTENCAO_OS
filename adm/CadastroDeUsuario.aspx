@@ -63,7 +63,7 @@
                     ForeColor="Red"
                     ValidationGroup="Cadastro" />
             </div>
-            <div class="col-2">
+     <%--       <div class="col-2">
                 Ramal:
                 <asp:TextBox ID="txtRamal1" runat="server" class="form-control" MaxLength="10"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="Requiredfieldvalidator2" runat="server"
@@ -72,7 +72,7 @@
                     Display="Dynamic"
                     ForeColor="Red"
                     ValidationGroup="Cadastro" />
-            </div>
+            </div>--%>
             <div class="col-7">
                 Centro de Custo
                    <select data-placeholder="Selecione uma opção" id="select1" multiple style="height: 4000px"
@@ -114,14 +114,14 @@
         <div>
             <h3>Usuários Cadastrados</h3>
             <asp:GridView ID="gvUsuarios" runat="server" AutoGenerateColumns="False"
-                DataKeyNames="Id" OnRowCommand="gvUsuarios_RowCommand" Class="table table-bordered" HorizontalAlign="NotSet">
+                DataKeyNames="UsuarioId" OnRowCommand="gvUsuarios_RowCommand" Class="table table-bordered" HorizontalAlign="NotSet">
                 <Columns>
-                    <asp:BoundField DataField="Id" HeaderText="Id" />
+                    <asp:BoundField DataField="UsuarioId" HeaderText="Id" />
                     <asp:BoundField DataField="LoginRede" HeaderText="Login" />
                     <asp:BoundField DataField="NomeCompleto" HeaderText="Nome" />
                     <asp:BoundField DataField="Email" HeaderText="Email" />
-                    <asp:BoundField DataField="rf_Coordenador" HeaderText="RF" />
-                    <asp:BoundField DataField="ramal_Coordenador" HeaderText="Ramal" />
+                    <asp:BoundField DataField="RF" HeaderText="RF" />
+                    <%--<asp:BoundField DataField="ramal_Coordenador" HeaderText="Ramal" />--%>
                     <asp:TemplateField HeaderText="Ações">
                         <ItemTemplate>
                             <asp:Button ID="btnCentroCusto" runat="server" class="btn btn-outline-primary" Width="150"
@@ -134,7 +134,7 @@
                     <asp:TemplateField HeaderText="Ações">
                         <ItemTemplate>
                             <asp:Button ID="btnExcluir" runat="server" class="btn btn-outline-danger" Width="80" CommandName="Inativar"
-                                CommandArgument='<%# Eval("Id") %>' Text="Inativar"
+                                CommandArgument='<%# Eval("UsuarioId") %>' Text="Inativar"
                                 OnClientClick="return confirm('Tem certeza que deseja inativar este usuário?');" />
                         </ItemTemplate>
                     </asp:TemplateField>
@@ -145,14 +145,14 @@
          <div>
             <h3>Usuários Inativos</h3>
             <asp:GridView ID="gvUsuariosInativos" runat="server" AutoGenerateColumns="False"
-                DataKeyNames="Id" OnRowCommand="gvUsuariosInativos_RowCommand" Class="table table-bordered" HorizontalAlign="NotSet">
+                DataKeyNames="UsuarioId" OnRowCommand="gvUsuariosInativos_RowCommand" Class="table table-bordered" HorizontalAlign="NotSet">
                 <Columns>
-                    <asp:BoundField DataField="Id" HeaderText="Id" />
+                    <asp:BoundField DataField="UsuarioId" HeaderText="Id" />
                     <asp:BoundField DataField="LoginRede" HeaderText="Login" />
                     <asp:BoundField DataField="NomeCompleto" HeaderText="Nome" />
                     <asp:BoundField DataField="Email" HeaderText="Email" />
-                    <asp:BoundField DataField="rf_Coordenador" HeaderText="RF" />
-                    <asp:BoundField DataField="ramal_Coordenador" HeaderText="Ramal" />
+                    <asp:BoundField DataField="RF" HeaderText="RF" />
+                  <%--  <asp:BoundField DataField="ramal_Coordenador" HeaderText="Ramal" />--%>
                     <asp:TemplateField HeaderText="Ações">
                         <ItemTemplate>
                             <asp:Button ID="Button1" runat="server" class="btn btn-outline-primary" Width="150"
@@ -165,7 +165,7 @@
                     <asp:TemplateField HeaderText="Ações">
                         <ItemTemplate>
                             <asp:Button ID="btnInativar" runat="server" class="btn btn-outline-secondary" Width="80" CommandName="Ativar"
-                                CommandArgument='<%# Eval("Id") %>' Text="Ativar"
+                                CommandArgument='<%# Eval("UsuarioId") %>' Text="Ativar"
                                 OnClientClick="return confirm('Tem certeza que deseja Ativar este usuário?');" />
                         </ItemTemplate>
                     </asp:TemplateField>
@@ -182,16 +182,16 @@
                         <h5 class="modal-title">Centros de Custo do Usuário</h5>                    
                     </div>
                     <div class="modal-body">
-                        <asp:GridView ID="gvCentroCusto" runat="server" AutoGenerateColumns="False" DataKeyNames="Id" OnRowCommand="gvCentroCusto_RowCommand"
+                        <asp:GridView ID="gvCentroCusto" runat="server" AutoGenerateColumns="False" DataKeyNames="UsuarioCentroDeCustoId" OnRowCommand="gvCentroCusto_RowCommand"
                             CssClass="table table-bordered table-striped" >
                             <Columns>
-                                <asp:BoundField DataField="NomeCompleto" HeaderText="Nome" />
-                                <asp:BoundField DataField="SET_A_COD" HeaderText="Código" />
-                                <asp:BoundField DataField="SET_A_DES" HeaderText="Descrição" />                           
+                                <asp:BoundField DataField="nomeUsuario" HeaderText="Nome" />
+                                <asp:BoundField DataField="codigoCentroDeCusto" HeaderText="Código" />
+                                <asp:BoundField DataField="descricaoCentroDeCusto" HeaderText="Descrição" />                           
                               <asp:TemplateField HeaderText="Ações">
                         <ItemTemplate>
                             <asp:Button ID="Button2" runat="server" class="btn btn-outline-danger" Width="80" CommandName="Remover"
-                                CommandArgument='<%# Eval("Id") %>' Text="Remover"
+                                CommandArgument='<%# Eval("UsuarioCentroDeCustoId") %>' Text="Remover"
                                 OnClientClick="return confirm('Tem certeza que deseja Remover este centro de custo?');" />
                         </ItemTemplate>
                     </asp:TemplateField>

@@ -47,11 +47,11 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
     {
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
         {
-            SqlCommand cmd = new SqlCommand("SELECT Id, Nome FROM Perfis", con);
+            SqlCommand cmd = new SqlCommand("SELECT idPerfil, Nome FROM Perfis", con);
             con.Open();
             cblPerfis.DataSource = cmd.ExecuteReader();
             cblPerfis.DataTextField = "Nome";
-            cblPerfis.DataValueField = "Id";
+            cblPerfis.DataValueField = "idPerfil";
             cblPerfis.DataBind();
         }
     }
@@ -75,9 +75,9 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
 
             // Carrega perfis do usuário
             query = @"
-    SELECT up.PerfilId 
-    FROM UsuariosPerfis up
-    INNER JOIN Usuarios u ON u.Id = up.UsuarioId
+    SELECT up.idPerfil 
+    FROM UsuarioPerfil up
+    INNER JOIN Usuarios u ON u.UsuarioId = up.UsuarioId
     WHERE u.LoginRede = @LoginRede";
 
             cmd = new SqlCommand(query, con);
@@ -86,7 +86,7 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
 
             while (reader.Read())
             {
-                ListItem item = cblPerfis.Items.FindByValue(reader["PerfilId"].ToString());
+                ListItem item = cblPerfis.Items.FindByValue(reader["idPerfil"].ToString());
                 if (item != null)
                     item.Selected = true;
             }
@@ -99,7 +99,7 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
     {
         txtRF.Text = "";
         //txtSetor.Text = "";
-        txtRamal1.Text = "";
+        //txtRamal1.Text = "";
         cblPerfis.ClearSelection();
         string login = txtLogin.Text.Trim();
         CarregarUsuario(login);
@@ -146,7 +146,7 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
         string nome = txtNome.Text.Trim();
         string email = txtEmail.Text.Trim();
         string rfCordernador = txtRF.Text.Trim();
-        string ramal1 = txtRamal1.Text.Trim();
+        //string ramal1 = txtRamal1.Text.Trim();
         int ativo = 1;
         //string setorCordenador = txtSetor.Text.Trim();
 
@@ -188,31 +188,31 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
                 con.Open();
 
                 string query = @"IF EXISTS (SELECT 1 FROM Usuarios WHERE LoginRede = @LoginRede)
-                            UPDATE Usuarios SET NomeCompleto = @NomeCompleto, Email = @Email, rf_Coordenador =@rf_Coordenador
-                            ,ramal_Coordenador=@ramal_Coordenador,Ativo=@Ativo
+                            UPDATE Usuarios SET NomeCompleto = @NomeCompleto, Email = @Email, RF =@RF
+                            ,Ativo=@Ativo
                             WHERE LoginRede = @LoginRede
                             ELSE
-                            INSERT INTO Usuarios (LoginRede, NomeCompleto, Email, rf_Coordenador, ramal_Coordenador, Ativo)
-                            VALUES (@LoginRede, @NomeCompleto, @Email,@rf_Coordenador,@ramal_Coordenador,@Ativo)";
+                            INSERT INTO Usuarios (LoginRede, NomeCompleto, Email, RF,  Ativo)
+                            VALUES (@LoginRede, @NomeCompleto, @Email,@RF,@Ativo)";
 
                 SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@LoginRede", login);
+                cmd.Parameters.AddWithValue("@LoginRede",login);
                 cmd.Parameters.AddWithValue("@NomeCompleto", nome);
                 cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@rf_Coordenador", rfCordernador);
-                cmd.Parameters.AddWithValue("@ramal_Coordenador", ramal1);
+                cmd.Parameters.AddWithValue("@RF", rfCordernador);
+                //cmd.Parameters.AddWithValue("@ramal_Coordenador", ramal1);
                 cmd.Parameters.AddWithValue("@Ativo", ativo);
                 //cmd.Parameters.AddWithValue("@setor_Coordenador", setorCordenador);
 
                 cmd.ExecuteNonQuery();
 
                 // Buscar o ID do usuário
-                cmd = new SqlCommand("SELECT Id FROM Usuarios WHERE LoginRede = @LoginRede", con);
+                cmd = new SqlCommand("SELECT UsuarioId FROM Usuarios WHERE LoginRede = @LoginRede", con);
                 cmd.Parameters.AddWithValue("@LoginRede", login);
                 int usuarioId = Convert.ToInt32(cmd.ExecuteScalar());
 
                 // Remove perfis antigos
-                cmd = new SqlCommand("DELETE FROM UsuariosPerfis WHERE UsuarioId = @UsuarioId", con);
+                cmd = new SqlCommand("DELETE FROM UsuarioPerfil WHERE UsuarioId = @UsuarioId", con);
                 cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
                 cmd.ExecuteNonQuery();
 
@@ -221,9 +221,9 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
                 {
                     if (item.Selected)
                     {
-                        cmd = new SqlCommand("INSERT INTO UsuariosPerfis (UsuarioId, PerfilId) VALUES (@UsuarioId, @PerfilId)", con);
+                        cmd = new SqlCommand("INSERT INTO UsuarioPerfil (UsuarioId, idPerfil) VALUES (@UsuarioId, @idPerfil)", con);
                         cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
-                        cmd.Parameters.AddWithValue("@PerfilId", item.Value);
+                        cmd.Parameters.AddWithValue("@idPerfil", item.Value);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -257,7 +257,7 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
     {
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
         {
-            string query = "SELECT Id, LoginRede, NomeCompleto, Email, rf_Coordenador ,ramal_Coordenador FROM Usuarios where Ativo=1 ORDER BY NomeCompleto";
+            string query = "SELECT UsuarioId, LoginRede, NomeCompleto, Email, RF FROM Usuarios where Ativo=1 ORDER BY NomeCompleto";
             SqlCommand cmd = new SqlCommand(query, con);
             con.Open();
 
@@ -270,7 +270,7 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
     {
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
         {
-            string query = "SELECT Id, LoginRede, NomeCompleto, Email, rf_Coordenador ,ramal_Coordenador FROM Usuarios where Ativo=0 ORDER BY NomeCompleto";
+            string query = "SELECT UsuarioId, LoginRede, NomeCompleto, Email, RF FROM Usuarios where Ativo=0 ORDER BY NomeCompleto";
             SqlCommand cmd = new SqlCommand(query, con);
             con.Open();
 
@@ -292,8 +292,8 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
                 try
                 {
                     // Remove os perfis vinculados primeiro
-                    SqlCommand cmd = new SqlCommand("UPDATE [dbo].[Usuarios] SET[Ativo] = 0 WHERE Id = @Id", con);
-                    cmd.Parameters.AddWithValue("@Id", Id);
+                    SqlCommand cmd = new SqlCommand("UPDATE [dbo].[Usuarios] SET[Ativo] = 0 WHERE UsuarioId = @UsuarioId", con);
+                    cmd.Parameters.AddWithValue("@UsuarioId", Id);
                     cmd.ExecuteNonQuery();
 
                     // Depois remove o usuário
@@ -321,9 +321,9 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
             DataTable dt = new DataTable();
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
             {
-                string query = "SELECT id, NomeCompleto, SET_A_COD, SET_A_DES FROM Vw_Usuario_CentroDeCusto WHERE loginrede = @login";
+                string query = "SELECT UsuarioCentroDeCustoId, nomeUsuario, codigoCentroDeCusto, descricaoCentroDeCusto FROM Vw_Usuario_CentroDeCusto WHERE LoginDeRedeUsuario = @LoginDeRedeUsuario";
                 SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@login", loginRede);
+                cmd.Parameters.AddWithValue("@LoginDeRedeUsuario", loginRede);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
             }
@@ -353,8 +353,8 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
                 try
                 {
                     // Remove os perfis vinculados primeiro
-                    SqlCommand cmd = new SqlCommand("UPDATE [dbo].[Usuarios] SET[Ativo] = 1 WHERE Id = @Id", con);
-                    cmd.Parameters.AddWithValue("@Id", Id);
+                    SqlCommand cmd = new SqlCommand("UPDATE [dbo].[Usuarios] SET[Ativo] = 1 WHERE UsuarioId = @UsuarioId", con);
+                    cmd.Parameters.AddWithValue("@UsuarioId", Id);
                     cmd.ExecuteNonQuery();
 
                     // Depois remove o usuário
@@ -382,7 +382,7 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
             DataTable dt = new DataTable();
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
             {
-                string query = "SELECT id, NomeCompleto, SET_A_COD, SET_A_DES FROM Vw_Usuario_CentroDeCusto WHERE loginrede = @login";
+                string query = "SELECT UsuarioCentroDeCustoId, nomeUsuario, codigoCentroDeCusto, descricaoCentroDeCusto FROM Vw_Usuario_CentroDeCusto WHERE loginrede = @login";
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@login", loginRede);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -413,8 +413,8 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
                 try
                 {
                     // Remove os perfis vinculados primeiro
-                    SqlCommand cmd = new SqlCommand("DELETE FROM [dbo].[Usuario_CentroDeCusto] WHERE Id = @Id", con);
-                    cmd.Parameters.AddWithValue("@Id", Id);
+                    SqlCommand cmd = new SqlCommand("DELETE FROM [dbo].[UsuarioCentroDeCusto] WHERE UsuarioCentroDeCustoId = @UsuarioCentroDeCustoId", con);
+                    cmd.Parameters.AddWithValue("@UsuarioCentroDeCustoId", Id);
                     cmd.ExecuteNonQuery();
                 
                 }
@@ -459,7 +459,7 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
     {
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
         {
-            string query = @"SELECT rf_Coordenador,ramal_Coordenador 
+            string query = @"SELECT RF 
                               FROM [hspm_OS].[dbo].[Usuarios] WHERE LoginRede = @LoginRede";
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@LoginRede", login);
@@ -468,9 +468,9 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
 
             if (reader.Read())
             {
-                txtRF.Text = reader["rf_Coordenador"].ToString();
+                txtRF.Text = reader["RF"].ToString();
                 //txtSetor.Text = reader["setor_Coordenador"].ToString();
-                txtRamal1.Text = reader["ramal_Coordenador"].ToString();
+                //txtRamal1.Text = reader["ramal_Coordenador"].ToString();
             }
             reader.Close();
             con.Close();
@@ -484,7 +484,7 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
         txtRF.Text = "";
         //txtSetor.Text = "";
         select1.SelectedIndex = -1;
-        txtRamal1.Text = "";
+        //txtRamal1.Text = "";
         cblPerfis.ClearSelection();
     }
 }

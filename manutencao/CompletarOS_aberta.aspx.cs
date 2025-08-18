@@ -48,11 +48,11 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             LabelAndarLocal.Text = i.andar + " - " + i.localDaSolicitacao;
             LabelPatrimonio.Text = i.codPatrimonio + " - " + i.equipamentoDesc;
             LabeldescrServico.Text = i.descServicoSolicitado;
-            //if (i.obs=="")
+            //if (i.obs == "")
             //{
             //    LabelObS.Text = i.obs;
             //}
-            //LabelObS.Text = i.obs;
+            LabelObS.Text = i.obs;
             //LabelNomeSolicitante.Text = i.nomeSolicitante;
         }
     }
@@ -152,7 +152,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
         s.idSolicitacao = idOs;
         s.codSetorSolicitado = idSetorSolicitado;
         s.idServicoSolicitado = id;
-        s.codStatusSolicitacao =1;
+        s.codStatusSolicitacao =2;
        bool sucesso = OsDAO.GravaSolicitacaoOSRecebida(s);
         if (sucesso==true)
         {
@@ -175,7 +175,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
         s.idSolicitacao= Convert.ToInt32(LabelID_OS.Text);
         string motivoRecusa = "Solicitação Recusada - Motivo: " + txtMotivoRecusa.Text.Trim();
         s.motivoDaRecusa = motivoRecusa;
-        s.codStatusSolicitacao = 5;
+        s.codStatusSolicitacao = 6;
         bool sucesso = OsDAO.GravaSolicitacaoOSRecebidaRecusa(s);
         if (sucesso == true)
         {

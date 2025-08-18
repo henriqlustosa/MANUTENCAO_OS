@@ -19,8 +19,8 @@ public class OsDAO
             try
             {
                 string strQuery;
-                strQuery = @"SELECT SET_A_COD, CONCAT( [SET_A_COD],+' - ',[SET_A_DES]) as custo
-  FROM [hspm_OS].[dbo].[CentroDeCusto] order by SET_A_DES";
+                strQuery = @"SELECT codigoCentroDeCusto, CONCAT( [codigoCentroDeCusto],+' - ',[descricao]) as custo
+  FROM [hspm_OS].[dbo].[CentroDeCusto] order by descricao";
                 con.Open();
                 SqlCommand commd = new SqlCommand(strQuery, con);
                 SqlDataReader dr = commd.ExecuteReader();
@@ -47,11 +47,15 @@ public class OsDAO
         { 
                 try
                 {
-                    string strQuery = @"INSERT INTO [dbo].[Usuario_CentroDeCusto]
-           ([loginRede]
-           ,[id_centroDeCusto])
-     VALUES
-           (@loginRede,@id_centroDeCusto)";
+                    string strQuery = @"INSERT INTO UsuarioCentroDeCusto (UsuarioId, idCentroDeCusto, Ativo)
+SELECT 
+    u.UsuarioId,
+    c.idCentroDeCusto,
+    1 AS Ativo
+FROM dbo.Usuarios u
+INNER JOIN dbo.CentroDeCusto c 
+       ON c.codigoCentroDeCusto = @id_centroDeCusto 
+WHERE u.LoginRede = @loginRede";          
                 SqlCommand cmd = new SqlCommand(strQuery, con);
                 cmd.Parameters.AddWithValue("@loginRede", login);
                 cmd.Parameters.AddWithValue("@id_centroDeCusto", codCentroDeCusto);                
@@ -75,7 +79,7 @@ public class OsDAO
         {
             string query = @"SELECT [id_solicitacao]
       ,[NomeCompleto]
-      ,[SET_A_DES]
+      ,[descricaoCentroDeCusto]
       ,[andar]
       ,[local]
       ,[descricaoServico]
@@ -93,7 +97,7 @@ public class OsDAO
                 s.nomeSolicitante = reader["NomeCompleto"].ToString();
                 s.andar = reader["andar"].ToString();
                 s.localDaSolicitacao = reader["local"].ToString();
-                s.descricaoCentroCusto = reader["SET_A_DES"].ToString();               
+                s.descricaoCentroCusto = reader["descricaoCentroDeCusto"].ToString();               
                 s.descServicoSolicitado = reader["descricaoServico"].ToString();
                 s.dataSolicitacao = reader["dataSolicitacao"] != DBNull.Value ? Convert.ToDateTime(reader["dataSolicitacao"]) : DateTime.MinValue;
                      
@@ -111,10 +115,25 @@ public class OsDAO
 
         using (SqlConnection con = new SqlConnection(connectionString))
         {
-            string query = @"SELECT [id_solicitacao],[NomeCompleto],[rfSolicitante],[ramalSolicitante],[centroCusto],[responsavelCentroCusto]
-      ,[rfResponsavel],[ramalRespCusto],[patrimonio],[andar],[local],[descricaoServico],[obs],[dataSolicitacao],[RSP_A_NOME],[BEM_A_DESC],[SET_A_DES]
+            string query = @"SELECT  [idSolicitacao]
+      ,[nomeUsuario]
+      ,[rfUsuario]
+      ,[ramalSolicitante]
+      ,[descricaoCentroDeCusto]
+      ,[nomeResponsavel]
+      ,[rfResponsavel]
+      ,[descricaoPatrimonio]
+      ,[andar]
+      ,[local]
+      ,[obsSolicitacao]
+      ,[dataSolicitacao]
+      ,[codigoCentroDeCusto]
+      ,[resposavelID]
+      ,[descricaoServico]
+      ,[codigoPatrimonio]
+   
   FROM [hspm_OS].[dbo].[Vw_ComplementarOS]
-  where id_solicitacao=@idOs";
+  where idSolicitacao=@idOs";
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@idOs", idOs);
             con.Open();
@@ -122,20 +141,20 @@ public class OsDAO
             while (reader.Read())
             {
                 var s = new SolicitanteDados();
-                s.idSolicitacao = Convert.ToInt32(reader["id_solicitacao"]);
-                s.nomeSolicitante = reader["NomeCompleto"].ToString();
-                s.rfSolicitante = reader["rfSolicitante"].ToString();
+                s.idSolicitacao = Convert.ToInt32(reader["idSolicitacao"]);
+                s.nomeSolicitante = reader["nomeUsuario"].ToString();
+                s.rfSolicitante = reader["rfUsuario"].ToString();
                 s.ramalSolicitante = reader["ramalSolicitante"].ToString();
-                s.codCentroCusto = Convert.ToInt32(reader["centroCusto"]);
-                s.codRespCentroCusto = Convert.ToInt32(reader["responsavelCentroCusto"]);
-                s.descricaoCentroCusto = reader["SET_A_DES"].ToString();
-                s.nomeResponsavel_Custo = reader["RSP_A_NOME"].ToString();
+                s.codCentroCusto = Convert.ToInt32(reader["codigoCentroDeCusto"]);
+                s.codRespCentroCusto = Convert.ToInt32(reader["resposavelID"]);
+                s.descricaoCentroCusto = reader["descricaoCentroDeCusto"].ToString();
+                s.nomeResponsavel_Custo = reader["nomeResponsavel"].ToString();
                 s.andar = reader["andar"].ToString();
                 s.localDaSolicitacao = reader["local"].ToString();
-                s.codPatrimonio = Convert.ToInt32(reader["patrimonio"]);
-                s.equipamentoDesc = reader["BEM_A_DESC"].ToString();
-                s.descServicoSolicitado = reader["descricaoServico"].ToString();
-                s.obs = reader["obs"].ToString();
+                s.codPatrimonio = Convert.ToInt32(reader["codigoPatrimonio"]);
+                s.equipamentoDesc = reader["descricaoPatrimonio"].ToString();
+               s.descServicoSolicitado = reader["descricaoServico"].ToString();
+                s.obs = reader["obsSolicitacao"].ToString();
                 s.dataSolicitacao = reader["dataSolicitacao"] != DBNull.Value ? Convert.ToDateTime(reader["dataSolicitacao"]) : DateTime.MinValue;
                 //s.equipamentoDesc = reader["BEM_A_DESC"].ToString();
                 lista.Add(s);

@@ -38,7 +38,7 @@ public partial class Login : System.Web.UI.Page
                 // 2. Verificar se o usuário está cadastrado no sistema
                 using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
                 {
-                    string sql = "SELECT Id FROM Usuarios WHERE LoginRede = @LoginRede and Ativo=1";
+                    string sql = "SELECT UsuarioId FROM Usuarios WHERE LoginRede = @LoginRede and Ativo=1";
                     SqlCommand cmd = new SqlCommand(sql, con);
                     cmd.Parameters.AddWithValue("@LoginRede", login);
 
@@ -59,8 +59,8 @@ public partial class Login : System.Web.UI.Page
                     using (SqlConnection con2 = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
                     {
                         string query = @"
-                    SELECT up.PerfilId
-                    FROM UsuariosPerfis up
+                    SELECT up.idPerfil
+                    FROM UsuarioPerfil up
                     WHERE up.UsuarioId = @UsuarioId";
 
                         SqlCommand cmd2 = new SqlCommand(query, con2);
@@ -70,7 +70,7 @@ public partial class Login : System.Web.UI.Page
 
                         while (reader.Read())
                         {
-                            perfisDoUsuario.Add(Convert.ToInt32(reader["PerfilId"]));
+                            perfisDoUsuario.Add(Convert.ToInt32(reader["idPerfil"]));
                         }
                         reader.Close();
                     }

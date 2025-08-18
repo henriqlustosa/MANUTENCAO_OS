@@ -1,26 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36310.24 d17.14
+# Visual Studio 15
+VisualStudioVersion = 15.0.36001.139
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Os", ".", "{3E928871-5449-21AE-3D6E-4845AF4F3487}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Os", "Os\", "{06BFE001-5B73-4820-91FB-28AAE556554F}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_23006"
-		Debug.AspNetCompiler.PhysicalPath = "G:\OneDrive - Default Directory\OneDrive - rede.sp\PROJETO_ORDEM_SERVICO\OS_MANUTENCAO\Os\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_23006\"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_36066"
+		Debug.AspNetCompiler.PhysicalPath = "Os\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_36066\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_23006"
-		Release.AspNetCompiler.PhysicalPath = "G:\OneDrive - Default Directory\OneDrive - rede.sp\PROJETO_ORDEM_SERVICO\OS_MANUTENCAO\Os\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_23006\"
+		Release.AspNetCompiler.VirtualPath = "/localhost_36066"
+		Release.AspNetCompiler.PhysicalPath = "Os\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_36066\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "23006"
+		VWDPort = "36066"
+		SlnRelativePath = "Os\"
+		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
 Global
@@ -28,13 +30,13 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3E928871-5449-21AE-3D6E-4845AF4F3487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E928871-5449-21AE-3D6E-4845AF4F3487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06BFE001-5B73-4820-91FB-28AAE556554F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06BFE001-5B73-4820-91FB-28AAE556554F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B4B54895-B1B6-4C21-9C99-898A49B5807E}
+		SolutionGuid = {F741A761-E159-4162-A141-539BFDECF58F}
 	EndGlobalSection
 EndGlobal
