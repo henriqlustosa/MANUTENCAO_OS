@@ -20,7 +20,7 @@ public class ReceberOS
     {
         this.id_solicitacao = id_solicitacao;
         this.codServicoRealizar = codServicoRealizar;
-
+        this.codStatus = codStatus;
         this.justificativa_recusar = null;
         this.dataRecebimento = DateTime.Now; // data e hora atuais
     }
@@ -31,7 +31,7 @@ public class ReceberOS
         this.codServicoRealizar = 0;
         this.justificativa_recusar = null;
         this.dataRecebimento = DateTime.Now; // opcional: já define a data atual
-        this.codStatus = 0;
+        this.codStatus = 2;
     }
 }
 

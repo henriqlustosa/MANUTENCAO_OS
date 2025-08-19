@@ -144,7 +144,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Informe o serviço Solicitado!');", true);
             return;
         }
-        ReceberOS r = new ReceberOS(Convert.ToInt32(LabelID_OS.Text), Convert.ToInt32(hfCustomerId.Value),6);
+        ReceberOS r = new ReceberOS(Convert.ToInt32(LabelID_OS.Text), Convert.ToInt32(hfCustomerId.Value),2);
     
 
        bool sucesso = OsDAO.GravaSolicitacaoOSRecebida(r);

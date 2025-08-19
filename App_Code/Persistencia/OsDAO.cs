@@ -108,6 +108,45 @@ WHERE u.LoginRede = @loginRede";
         }
         return lista;
     }
+
+    public static List<SolicitanteDados> BuscarOS_Finalizar(int status)
+    {
+        var lista = new List<SolicitanteDados>();
+        string connectionString = ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString();
+
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            string query = @"SELECT [idSolicitacao]
+      ,[nomeUsuario]
+      ,[descricaoCentroDeCusto]
+      ,[andar]
+      ,[local]
+      ,[descricaoServico]
+      ,[dataSolicitacao]    
+  FROM [hspm_OS].[dbo].[Vw_Impressao] where status = " + status + " order by idSolicitacao asc";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            //cmd.Parameters.AddWithValue("@loginSolicitante", login);
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                var s = new SolicitanteDados();
+                s.idSolicitacao = Convert.ToInt32(reader["idSolicitacao"]);
+                s.nomeSolicitante = reader["nomeUsuario"].ToString();
+                s.andar = reader["andar"].ToString();
+                s.localDaSolicitacao = reader["local"].ToString();
+                s.descricaoCentroCusto = reader["descricaoCentroDeCusto"].ToString();
+                s.descServicoSolicitado = reader["descricaoServico"].ToString();
+                s.dataSolicitacao = reader["dataSolicitacao"] != DBNull.Value ? Convert.ToDateTime(reader["dataSolicitacao"]) : DateTime.MinValue;
+
+
+                lista.Add(s);
+            }
+            con.Close();
+        }
+        return lista;
+    }
     public static List<SolicitanteDados> CarregaDadosOS_Receber(int idOs)
     {
         var lista = new List<SolicitanteDados>();
@@ -155,6 +194,65 @@ WHERE u.LoginRede = @loginRede";
                 s.equipamentoDesc = reader["descricaoPatrimonio"].ToString();
                s.descServicoSolicitado = reader["descricaoServico"].ToString();
                 s.obs = reader["obsSolicitacao"].ToString();
+                s.dataSolicitacao = reader["dataSolicitacao"] != DBNull.Value ? Convert.ToDateTime(reader["dataSolicitacao"]) : DateTime.MinValue;
+                //s.equipamentoDesc = reader["BEM_A_DESC"].ToString();
+                lista.Add(s);
+            }
+            con.Close();
+        }
+        return lista;
+    }
+
+
+    public static List<FinalizarOS> CarregaDadosOS_Finalizar(int idOs)
+    {
+        var lista = new List<FinalizarOS>();
+        string connectionString = ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString();
+
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            string query = @"SELECT [idSolicitacao]
+      ,[nomeUsuario]
+      ,[rfUsuario]
+      ,[ramalSolicitante]
+      ,[descricaoCentroDeCusto]
+      ,[nomeResponsavel]
+      ,[rfResponsavel]
+      ,[descricaoPatrimonio]
+      ,[andar]
+      ,[local]
+      ,[obsSolicitacao]
+      ,[dataSolicitacao]
+      ,[codigoCentroDeCusto]
+      ,[resposavelID]
+      ,[descricaoServico]
+      ,[descricao]
+      ,[ServicoArealizar]
+      ,[codigoPatrimonio]
+      ,[BEM_A_DESC]
+      ,[status]
+  FROM [hspm_OS].[dbo].[Vw_Impressao]
+  where idSolicitacao=@idOs";
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@idOs", idOs);
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                var s = new FinalizarOS();
+                s.idSolicitacao = Convert.ToInt32(reader["idSolicitacao"]);
+                s.nomeUsuario = reader["nomeUsuario"].ToString();
+                s.rfUsuario = reader["rfUsuario"].ToString();
+                s.ramalSolicitante = reader["ramalSolicitante"].ToString();
+               
+                s.descricaoCentroDeCusto = reader["descricaoCentroDeCusto"].ToString();
+                s.nomeResponsavel = reader["nomeResponsavel"].ToString();
+                s.andar = reader["andar"].ToString();
+                s.local = reader["local"].ToString();
+                s.codigoPatrimonio = Convert.ToInt32(reader["codigoPatrimonio"]);
+                s.descricaoPatrimonio = reader["descricaoPatrimonio"].ToString();
+                s.descricaoServico = reader["descricaoServico"].ToString();
+                s.obsSolicitacao = reader["obsSolicitacao"].ToString();
                 s.dataSolicitacao = reader["dataSolicitacao"] != DBNull.Value ? Convert.ToDateTime(reader["dataSolicitacao"]) : DateTime.MinValue;
                 //s.equipamentoDesc = reader["BEM_A_DESC"].ToString();
                 lista.Add(s);

@@ -53,6 +53,13 @@
                                     <span class="ms-1 d-none d-sm-inline p-menu label-menu">Receber Os</span>
                                 </a>
                             </li>
+                                </li> 
+    FinalizarOS
+     <%--<li class="space-item">--%>
+    <a href="../manutencao/FinalizarOS.aspx" class="nav-link px-0">                                   
+        <span class="ms-1 d-none d-sm-inline p-menu label-menu">Finalizar Os</span>
+    </a>
+</li>
                         </ul>
                     </div>
                       <div class="div-loggon">
