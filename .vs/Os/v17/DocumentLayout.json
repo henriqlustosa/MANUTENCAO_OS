@@ -1,24 +1,144 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|g:\\onedrive - default directory\\onedrive - rede.sp\\projeto_ordem_servico\\os_manutencao\\os\\app_code\\persistencia\\osdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|solutionrelative:app_code\\persistencia\\osdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|g:\\onedrive - default directory\\onedrive - rede.sp\\projeto_ordem_servico\\os_manutencao\\os\\manutencao\\completaros_aberta.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|solutionrelative:manutencao\\completaros_aberta.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|g:\\onedrive - default directory\\onedrive - rede.sp\\projeto_ordem_servico\\os_manutencao\\os\\manutencao\\receberos.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|solutionrelative:manutencao\\receberos.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|g:\\onedrive - default directory\\onedrive - rede.sp\\projeto_ordem_servico\\os_manutencao\\os\\manutencao\\receberos.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|solutionrelative:manutencao\\receberos.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|g:\\onedrive - default directory\\onedrive - rede.sp\\projeto_ordem_servico\\os_manutencao\\os\\app_code\\model\\receberos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|solutionrelative:app_code\\model\\receberos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|g:\\onedrive - default directory\\onedrive - rede.sp\\projeto_ordem_servico\\os_manutencao\\os\\manutencao\\completaros_aberta.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|solutionrelative:manutencao\\completaros_aberta.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|g:\\onedrive - default directory\\onedrive - rede.sp\\projeto_ordem_servico\\os_manutencao\\os\\app_code\\model\\consultascentrodecusto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E928871-5449-21AE-3D6E-4845AF4F3487}|G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os|solutionrelative:app_code\\model\\consultascentrodecusto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 1,
+      "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 259,
-          "SelectedChildIndex": -1,
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReceberOS.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\manutencao\\ReceberOS.aspx.cs",
+              "RelativeDocumentMoniker": "manutencao\\ReceberOS.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\manutencao\\ReceberOS.aspx.cs",
+              "RelativeToolTip": "manutencao\\ReceberOS.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T13:04:27.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReceberOS.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\manutencao\\ReceberOS.aspx",
+              "RelativeDocumentMoniker": "manutencao\\ReceberOS.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\manutencao\\ReceberOS.aspx",
+              "RelativeToolTip": "manutencao\\ReceberOS.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-08-19T13:04:25.487Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ConsultasCentroDeCusto.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\App_Code\\Model\\ConsultasCentroDeCusto.cs",
+              "RelativeDocumentMoniker": "App_Code\\Model\\ConsultasCentroDeCusto.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\App_Code\\Model\\ConsultasCentroDeCusto.cs",
+              "RelativeToolTip": "App_Code\\Model\\ConsultasCentroDeCusto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T12:30:35.109Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OsDAO.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\App_Code\\Persistencia\\OsDAO.cs",
+              "RelativeDocumentMoniker": "App_Code\\Persistencia\\OsDAO.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\App_Code\\Persistencia\\OsDAO.cs",
+              "RelativeToolTip": "App_Code\\Persistencia\\OsDAO.cs",
+              "ViewState": "AgIAAPcAAAAAAAAAAAAWwBMBAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T12:27:51.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ReceberOS.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\App_Code\\Model\\ReceberOS.cs",
+              "RelativeDocumentMoniker": "App_Code\\Model\\ReceberOS.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\App_Code\\Model\\ReceberOS.cs",
+              "RelativeToolTip": "App_Code\\Model\\ReceberOS.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAqwBMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T12:22:01.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CompletarOS_aberta.aspx.cs",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\manutencao\\CompletarOS_aberta.aspx.cs",
+              "RelativeDocumentMoniker": "manutencao\\CompletarOS_aberta.aspx.cs",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\manutencao\\CompletarOS_aberta.aspx.cs",
+              "RelativeToolTip": "manutencao\\CompletarOS_aberta.aspx.cs",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAWwI0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T12:19:18.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CompletarOS_aberta.aspx",
+              "DocumentMoniker": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\manutencao\\CompletarOS_aberta.aspx",
+              "RelativeDocumentMoniker": "manutencao\\CompletarOS_aberta.aspx",
+              "ToolTip": "G:\\OneDrive - Default Directory\\OneDrive - rede.sp\\PROJETO_ORDEM_SERVICO\\OS_MANUTENCAO\\Os\\manutencao\\CompletarOS_aberta.aspx",
+              "RelativeToolTip": "manutencao\\CompletarOS_aberta.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-08-19T12:19:13.28Z",
+              "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedHeight": 141,
+          "DockedWidth": 1504,
           "SelectedChildIndex": -1,
           "Children": [
             {

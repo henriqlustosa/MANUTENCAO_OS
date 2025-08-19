@@ -15,7 +15,7 @@ public partial class manutencao_ReceberOS : System.Web.UI.Page
     private void buscarOsReceber()
     {        
         var lista = new List<SolicitanteDados>();
-        lista = OsDAO.BuscarOS_Receber();
+        lista = OsDAO.BuscarOS_Receber(1);
         gdvRecebeOS.DataSource = lista;
         gdvRecebeOS.DataBind();
     }

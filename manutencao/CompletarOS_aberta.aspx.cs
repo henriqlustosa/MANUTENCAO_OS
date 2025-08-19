@@ -144,16 +144,10 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Informe o serviço Solicitado!');", true);
             return;
         }
-        SolicitanteDados s = new SolicitanteDados();
-        int idSetorSolicitado = Convert.ToInt32(ddlSetorSolicitado.SelectedValue);
-        int idOs = Convert.ToInt32(LabelID_OS.Text);
-        string idServico = hfCustomerId.Value;
-        int id = Convert.ToInt32(idServico);
-        s.idSolicitacao = idOs;
-        s.codSetorSolicitado = idSetorSolicitado;
-        s.idServicoSolicitado = id;
-        s.codStatusSolicitacao =2;
-       bool sucesso = OsDAO.GravaSolicitacaoOSRecebida(s);
+        ReceberOS r = new ReceberOS(Convert.ToInt32(LabelID_OS.Text), Convert.ToInt32(hfCustomerId.Value),6);
+    
+
+       bool sucesso = OsDAO.GravaSolicitacaoOSRecebida(r);
         if (sucesso==true)
         {
             string answer = "Gravada com Sucesso!";
@@ -171,12 +165,12 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
 
     protected void btnRecusar_Click(object sender, EventArgs e)
     {
-        SolicitanteDados s = new SolicitanteDados();
-        s.idSolicitacao= Convert.ToInt32(LabelID_OS.Text);
+        ReceberOS r = new ReceberOS();
+        r.id_solicitacao= Convert.ToInt32(LabelID_OS.Text);
         string motivoRecusa = "Solicitação Recusada - Motivo: " + txtMotivoRecusa.Text.Trim();
-        s.motivoDaRecusa = motivoRecusa;
-        s.codStatusSolicitacao = 6;
-        bool sucesso = OsDAO.GravaSolicitacaoOSRecebidaRecusa(s);
+        r.justificativa_recusar = motivoRecusa;
+        r.codStatus = 6; // 6 = Recusada   
+        bool sucesso = OsDAO.GravaSolicitacaoOSRecebidaRecusa(r);
         if (sucesso == true)
         {
             string answer = "Recusa gravada com Sucesso!";

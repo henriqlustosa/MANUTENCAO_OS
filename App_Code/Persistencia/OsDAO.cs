@@ -70,7 +70,7 @@ WHERE u.LoginRede = @loginRede";
                 } 
         }
     }
-    public static List<SolicitanteDados> BuscarOS_Receber()
+    public static List<SolicitanteDados> BuscarOS_Receber(int status)
     {
         var lista = new List<SolicitanteDados>();
         string connectionString = ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString();
@@ -84,7 +84,7 @@ WHERE u.LoginRede = @loginRede";
       ,[local]
       ,[descricaoServico]
       ,[dataSolicitacao]    
-  FROM [hspm_OS].[dbo].[Vw_ReceberOS] order by id_solicitacao asc";
+  FROM [hspm_OS].[dbo].[Vw_ReceberOS] where status = "+  status + " order by id_solicitacao asc";
 
             SqlCommand cmd = new SqlCommand(query, con);
             //cmd.Parameters.AddWithValue("@loginSolicitante", login);
@@ -191,7 +191,40 @@ WHERE u.LoginRede = @loginRede";
         return lista;
     }
 
-    public static bool GravaSolicitacaoOSRecebidaRecusa(SolicitanteDados s)
+    public static bool GravaSolicitacaoOSRecebidaRecusa(ReceberOS s)
+    {
+        bool sucesso = true;
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
+        {
+            try
+            {
+                string strQuery = @"INSERT INTO [dbo].[receberOS]
+                                ([id_solicitacao], [justificativa_recusar],[dataRecebimento])
+                                VALUES (@id_solicitacao, @justificativa_recusar, @dataRecebimento)";
+
+                SqlCommand cmd = new SqlCommand(strQuery, con);
+                cmd.Parameters.AddWithValue("@id_solicitacao", s.id_solicitacao);
+                cmd.Parameters.AddWithValue("@justificativa_recusar", s.justificativa_recusar);
+                cmd.Parameters.AddWithValue("@dataRecebimento", s.dataRecebimento);
+                con.Open();
+                int linhasAfetadas = cmd.ExecuteNonQuery();
+
+                if (linhasAfetadas > 0)
+                {
+                    AtualizaStatusOS(s); // chama o update só se inseriu com sucesso
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                string erro = ex.Message;
+                sucesso = false;
+            }
+        }
+        return sucesso;
+    }
+
+    public static bool GravaSolicitacaoOSRecebida(ReceberOS r)
     {
         bool sucesso = false;
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
@@ -199,19 +232,22 @@ WHERE u.LoginRede = @loginRede";
             try
             {
                 string strQuery = @"INSERT INTO [dbo].[receberOS]
-                                ([id_solicitacao], [recusar])
-                                VALUES (@id_solicitacao, @recusar)";
+                                ([id_solicitacao], [codServicoRealizar], [dataRecebimento])
+                                VALUES (@id_solicitacao, @codServicoRealizar, @dataRecebimento)";
 
                 SqlCommand cmd = new SqlCommand(strQuery, con);
-                cmd.Parameters.AddWithValue("@id_solicitacao", s.idSolicitacao);
-                cmd.Parameters.AddWithValue("@recusar", s.motivoDaRecusa);              
+                cmd.Parameters.AddWithValue("@id_solicitacao", r.id_solicitacao);
+            
+                cmd.Parameters.AddWithValue("@codServicoRealizar", r.codServicoRealizar);
+
+                cmd.Parameters.AddWithValue("@dataRecebimento", r.dataRecebimento);
 
                 con.Open();
                 int linhasAfetadas = cmd.ExecuteNonQuery();
 
                 if (linhasAfetadas > 0)
                 {
-                    AtualizaStatusOS(s); // chama o update só se inseriu com sucesso
+                    AtualizaStatusOS(r); // chama o update só se inseriu com sucesso
                     sucesso = true;
                 }
             }
@@ -224,41 +260,7 @@ WHERE u.LoginRede = @loginRede";
         return sucesso;
     }
 
-    public static bool GravaSolicitacaoOSRecebida(SolicitanteDados s)
-    {
-        bool sucesso = false;
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
-        {
-            try
-            {
-                string strQuery = @"INSERT INTO [dbo].[receberOS]
-                                ([id_solicitacao], [codSetorSolcitado], [codServicoRealizar])
-                                VALUES (@id_solicitacao, @codSetorSolcitado, @codServicoRealizar)";
-
-                SqlCommand cmd = new SqlCommand(strQuery, con);
-                cmd.Parameters.AddWithValue("@id_solicitacao", s.idSolicitacao);
-                cmd.Parameters.AddWithValue("@codSetorSolcitado", s.codSetorSolicitado);
-                cmd.Parameters.AddWithValue("@codServicoRealizar", s.idServicoSolicitado);
-
-                con.Open();
-                int linhasAfetadas = cmd.ExecuteNonQuery();
-
-                if (linhasAfetadas > 0)
-                {
-                    AtualizaStatusOS(s); // chama o update só se inseriu com sucesso
-                    sucesso = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                string erro = ex.Message;
-                sucesso = false;
-            }
-        }
-        return sucesso;
-    }
-
-    public static int AtualizaStatusOS(SolicitanteDados s)
+    public static int AtualizaStatusOS(ReceberOS s)
     {
         int linhasAfetadas = 0;
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
@@ -271,8 +273,8 @@ WHERE u.LoginRede = @loginRede";
                 WHERE [id_solicitacao] = @idSolicitacao;";
 
                 SqlCommand cmd = new SqlCommand(strQuery, con);
-                cmd.Parameters.AddWithValue("@status", s.codStatusSolicitacao);
-                cmd.Parameters.AddWithValue("@idSolicitacao", s.idSolicitacao);
+                cmd.Parameters.AddWithValue("@status", s.codStatus);
+                cmd.Parameters.AddWithValue("@idSolicitacao", s.id_solicitacao);
 
                 con.Open();
                 linhasAfetadas = cmd.ExecuteNonQuery(); // retorna quantas linhas foram atualizadas
