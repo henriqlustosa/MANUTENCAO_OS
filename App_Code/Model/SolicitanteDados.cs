@@ -32,5 +32,6 @@ public class SolicitanteDados
     public string statusSolicitacao { get; set; }
     public int codStatusSolicitacao { get; set; }
     public string motivoDaRecusa { get; set; }
+    public string servicoSolicitadoDesc { get; set; }
 
 }

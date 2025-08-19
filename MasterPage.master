@@ -39,33 +39,36 @@
             <aside class="space-menu flex-column">
                 <div>
                     <div id="menu">
-                        <ul class="list-unstyled">
-                            <li class="space-item">
-                                
-                            <li class="space-item">
-                                <a href="../adm/CadastroDeUsuario.aspx" class="nav-link px-0">                                   
-                                    <span class="ms-1 d-none d-sm-inline p-menu label-menu">Cadastrar Usuário</span>
-                                </a>
-                            </li> 
-                                ReceberOS
+                        <ul class="list-unstyled">                           
+
+                                <li class="space-item">
+                                    <a href="../adm/CadastroDeUsuario.aspx" class="nav-link px-0">
+                                        <span class="ms-1 d-none d-sm-inline p-menu label-menu">Cadastrar Usuário</span>
+                                    </a>
+                                </li>
+                              
                                  <li class="space-item">
-                                <a href="../manutencao/ReceberOS.aspx" class="nav-link px-0">                                   
-                                    <span class="ms-1 d-none d-sm-inline p-menu label-menu">Receber Os</span>
+                                     <a href="../manutencao/ReceberOS.aspx" class="nav-link px-0">
+                                         <span class="ms-1 d-none d-sm-inline p-menu label-menu">Receber Os</span>
+                                     </a>
+                                 </li>
+                           <li class="space-item">
+                                <a href="../manutencao/imprimir_OS_grid.aspx" class="nav-link px-0">                                   
+                                    <span class="ms-1 d-none d-sm-inline p-menu label-menu">Imprimir Os</span>
                                 </a>
                             </li>
-                                </li> 
-    FinalizarOS
-     <%--<li class="space-item">--%>
-    <a href="../manutencao/FinalizarOS.aspx" class="nav-link px-0">                                   
-        <span class="ms-1 d-none d-sm-inline p-menu label-menu">Finalizar Os</span>
-    </a>
-</li>
+                            <li class="space-item">
+                            <a href="../manutencao/FinalizarOS.aspx" class="nav-link px-0">
+                                <span class="ms-1 d-none d-sm-inline p-menu label-menu">Finalizar Os</span>
+                            </a>
+                            </li>
+
                         </ul>
                     </div>
-                      <div class="div-loggon">
-                            <asp:LoginStatus runat="server" class="ms-1 d-none d-sm-inline p-menu label-menu text-decoration-none" LogoutAction="RedirectToLoginPage" LoginText="SAIR DO SISTEMA"></asp:LoginStatus>
-                        </div>
-              <%--      <div class="space-login">
+                    <div class="div-loggon">
+                        <asp:LoginStatus runat="server" class="ms-1 d-none d-sm-inline p-menu label-menu text-decoration-none" LogoutAction="RedirectToLoginPage" LoginText="SAIR DO SISTEMA"></asp:LoginStatus>
+                    </div>
+                    <%--      <div class="space-login">
                         <div>
                             <asp:LoginName ID="LoginName1" runat="server" CssClass="label-menu" />
                             
@@ -79,7 +82,7 @@
                     </div>--%>
                 </div>
             </aside>
-         
+
             <section class="space-content">
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 </asp:ContentPlaceHolder>
@@ -88,10 +91,10 @@
             </section>
         </main>
         <footer class="space-footer fixed-bottom">
-            <p>Desenvolvido pelo setor de informática do HSPM - hspminformatica@hspm.sp.gov.br</p> 
+            <p>Desenvolvido pelo setor de informática do HSPM - hspminformatica@hspm.sp.gov.br</p>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <h5> Nome:<asp:Label ID="LabelNome" runat="server" Text="Label"></asp:Label></h5>
+         <h5>Nome:<asp:Label ID="LabelNome" runat="server" Text="Label"></asp:Label></h5>
         </footer>
         <script src="bootstrap5/dist/js/bootstrap.min.js"></script>
     </form>
