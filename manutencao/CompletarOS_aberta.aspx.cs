@@ -48,6 +48,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             LabelAndarLocal.Text = i.andar + " - " + i.localDaSolicitacao;
             LabelPatrimonio.Text = i.codPatrimonio + " - " + i.equipamentoDesc;
             LabeldescrServico.Text = i.descServicoSolicitado;
+            
             //if (i.obs == "")
             //{
             //    LabelObS.Text = i.obs;

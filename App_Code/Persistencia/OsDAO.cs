@@ -244,7 +244,7 @@ WHERE u.LoginRede = @loginRede";
                 s.nomeUsuario = reader["nomeUsuario"].ToString();
                 s.rfUsuario = reader["rfUsuario"].ToString();
                 s.ramalSolicitante = reader["ramalSolicitante"].ToString();
-               
+                s.codigoCentroDeCusto = Convert.ToInt32( reader["codigoCentroDeCusto"].ToString());
                 s.descricaoCentroDeCusto = reader["descricaoCentroDeCusto"].ToString();
                 s.nomeResponsavel = reader["nomeResponsavel"].ToString();
                 s.andar = reader["andar"].ToString();
@@ -254,6 +254,8 @@ WHERE u.LoginRede = @loginRede";
                 s.descricaoServico = reader["descricaoServico"].ToString();
                 s.obsSolicitacao = reader["obsSolicitacao"].ToString();
                 s.dataSolicitacao = reader["dataSolicitacao"] != DBNull.Value ? Convert.ToDateTime(reader["dataSolicitacao"]) : DateTime.MinValue;
+                s.descricao = reader["descricao"].ToString();
+                s.ServicoArealizar = reader["ServicoArealizar"].ToString();
                 //s.equipamentoDesc = reader["BEM_A_DESC"].ToString();
                 lista.Add(s);
             }
@@ -505,6 +507,36 @@ WHERE u.LoginRede = @loginRede";
         return linhasAfetadas;
     }
 
+    public static object carregaFuncionarios(int id)
+    {
+        var lista = new List<Funcionario>();
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
+        {
+            try
+            {
+                string strQuery;
+                strQuery = @"SELECT idFuncionario,nomeFuncionario
+  FROM [hspm_OS].[dbo].[View_Visualizar_Equipe_Funcionario_Finalizar] where id_solicitacao =" +id + " order by nomeFuncionario asc ";
+                con.Open();
+                SqlCommand commd = new SqlCommand(strQuery, con);
+                SqlDataReader dr = commd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Funcionario c = new Funcionario();
+                    c.id_funcionario = dr.GetInt32(0);
+                    c.nome_funcionario = dr.IsDBNull(1) ? null : dr.GetString(1);
+                    lista.Add(c);
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                string erro = ex.Message;
+                throw;
+            }
+            return lista;
+        }
+    }
 }
 
 //                s.statusSolicitacao = "Aguardando";

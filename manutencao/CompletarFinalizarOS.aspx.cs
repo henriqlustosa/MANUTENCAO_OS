@@ -22,6 +22,10 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             string id1 = Request.QueryString["idOS"];
             int idOs = Convert.ToInt32(id1);
             carregaDados_OSfinalizar(idOs);
+            select1.DataSource = OsDAO.carregaFuncionarios(idOs);
+            select1.DataTextField = "nome_funcionario";
+            select1.DataValueField = "id_funcionario";
+            select1.DataBind();
             //CarregarDropDownSetoresSolicitados();
         }
         //if (ddlSetorSolicitado.SelectedItem.Text == "-- Selecione um setor --")
@@ -50,6 +54,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             LabeldescrServico.Text = i.descricaoServico;
             LabelSetorSolicitado.Text = i.descricao;
             LabelServicoRealizar.Text = i.ServicoArealizar;
+            LabelSetorSolicitado.Text = i.descricao;
            
             //if (i.obs == "")
             //{
