@@ -20,7 +20,7 @@ public partial class administrativo_CadastroDeUsuario : System.Web.UI.Page
 
         // 2. Verifica se o perfil é diferente de "1" (Administrador)
         List<int> perfis = Session["perfis"] as List<int>;
-        if (perfis == null || (!perfis.Contains(2)) && (!perfis.Contains(3)))
+        if (perfis == null || (!perfis.Contains(3)))
         {
             Response.Redirect("~/aberto/SemPermissao.aspx");
         }

@@ -111,10 +111,8 @@
                     <b>Observação:</b>
                     <asp:Label ID="LabelObS" runat="server" Text="Sem Dados"></asp:Label>
                 </div>
-            </div>
-            
-            <hr />
-            <br />
+            </div>            
+            <hr />  
             <br />
         <%--    <div class="row">
                 <div class="col-auto">
@@ -138,10 +136,10 @@
                 <hr />
             </div>
             <br />
-             <div class="row">
+     <%--        <div class="row">
      <hr />
  </div>
- <br />
+ <br />--%>
             <div class="row">
                 <b>Material utilizado:</b>
                 <hr />
@@ -156,7 +154,7 @@
                 <br />
             </div>
       
- <br /><br />
+
             <table style="width: 100%; border-collapse: collapse; font-size: 12pt; margin-top: 10px;">
                 <tr>
                     <td style="width: 22%;"><b>Nº de funcionários:</b> _____</td>
@@ -165,8 +163,8 @@
                 </tr>
             </table>
 
-            <br />
-            <br />
+            
+            <br />         
             <br />
             <div class="row">
                 <div class="col-auto">
@@ -177,11 +175,35 @@
                     <b>Assinatura do coordenador:</b>________________________________________
                 </div>
             </div>
+                
+            <br />
+            <br />
+       <br />
+               <div class="row">
+                <div class="col-auto">
+                    <b>Serviço executado a contento?</b>&nbsp;&nbsp;&nbsp;
+                    <asp:TextBox ID="TextBox1" runat="server" Width="30" height="20"></asp:TextBox>&nbsp; SIM &nbsp;
+                    <asp:TextBox ID="TextBox2" runat="server" Width="30" height="20"></asp:TextBox>&nbsp; NÃO
+                </div>
+            </div>
+          
+            <br />
+     
+    <div class="row">
+                <div class="col-auto">
+                    ________________________________________                    
+                </div>
+          </div>
+      <div class="row">
+                <div class="col-auto">
+                    
+                    <b>Assinatura do Coordenador/Gerente:</b>
+                </div>
+          </div>
         </div>
     </asp:Panel>
 
-  
-
+ 
 
 </asp:Content>
 

@@ -39,13 +39,7 @@
             <aside class="space-menu flex-column">
                 <div>
                     <div id="menu">
-                        <ul class="list-unstyled">                           
-
-                                <li class="space-item">
-                                    <a href="../adm/CadastroDeUsuario.aspx" class="nav-link px-0">
-                                        <span class="ms-1 d-none d-sm-inline p-menu label-menu">Cadastrar Usuário</span>
-                                    </a>
-                                </li>
+                        <ul class="list-unstyled">    
                               
                                  <li class="space-item">
                                      <a href="../manutencao/ReceberOS.aspx" class="nav-link px-0">
@@ -62,7 +56,11 @@
                                 <span class="ms-1 d-none d-sm-inline p-menu label-menu">Finalizar Os</span>
                             </a>
                             </li>
-
+                                 <li class="space-item">
+                                    <a href="../adm/CadastroDeUsuario.aspx" class="nav-link px-0">
+                                        <span class="ms-1 d-none d-sm-inline p-menu label-menu">Cadastrar Usuário</span>
+                                    </a>
+                                </li>
                         </ul>
                     </div>
                     <div class="div-loggon">

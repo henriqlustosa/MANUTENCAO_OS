@@ -4,6 +4,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="container">
+        <div style="text-align: right;">
+    <button type="button" class="btn btn-outline-success" onclick="recarregarAPagina()">
+        Atualizar lista
+    </button>
+</div>
 
          <h5 class="text-center">Receber Ordem de Serviço</h5>
           <br />
@@ -31,5 +36,15 @@
         </asp:GridView>
 
     </div>
+        <script type="text/javascript">
+        setTimeout(function () {
+            window.location.reload(1);
+        }, 300000); //60000 1 minutos // 120000 2 min  Junior 03/01/2022
+    </script>
+       <script>
+        function recarregarAPagina() {
+            window.location.reload();
+        }
+    </script>
 </asp:Content>
 
