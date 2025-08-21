@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 /// <summary>
@@ -44,10 +45,10 @@ public class OsDAO
     public static void GravaCentroDecustoDofuncionario(string login, int codCentroDeCusto)
     {
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
-        { 
-                try
-                {
-                    string strQuery = @"INSERT INTO UsuarioCentroDeCusto (UsuarioId, idCentroDeCusto, Ativo)
+        {
+            try
+            {
+                string strQuery = @"INSERT INTO UsuarioCentroDeCusto (UsuarioId, idCentroDeCusto, Ativo)
 SELECT 
     u.UsuarioId,
     c.idCentroDeCusto,
@@ -55,19 +56,19 @@ SELECT
 FROM dbo.Usuarios u
 INNER JOIN dbo.CentroDeCusto c 
        ON c.codigoCentroDeCusto = @id_centroDeCusto 
-WHERE u.LoginRede = @loginRede";          
+WHERE u.LoginRede = @loginRede";
                 SqlCommand cmd = new SqlCommand(strQuery, con);
                 cmd.Parameters.AddWithValue("@loginRede", login);
-                cmd.Parameters.AddWithValue("@id_centroDeCusto", codCentroDeCusto);                
+                cmd.Parameters.AddWithValue("@id_centroDeCusto", codCentroDeCusto);
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
-                }
-                catch (Exception ex)
-                {
-                    string erro = ex.Message;
-                    throw;
-                } 
+            }
+            catch (Exception ex)
+            {
+                string erro = ex.Message;
+                throw;
+            }
         }
     }
     public static List<SolicitanteDados> BuscarOS_Receber(int status)
@@ -84,7 +85,7 @@ WHERE u.LoginRede = @loginRede";
       ,[local]
       ,[descricaoServico]
       ,[dataSolicitacao]    
-  FROM [hspm_OS].[dbo].[Vw_ReceberOS] where status = "+  status + " order by id_solicitacao asc";
+  FROM [hspm_OS].[dbo].[Vw_ReceberOS] where status = " + status + " order by id_solicitacao asc";
 
             SqlCommand cmd = new SqlCommand(query, con);
             //cmd.Parameters.AddWithValue("@loginSolicitante", login);
@@ -97,10 +98,10 @@ WHERE u.LoginRede = @loginRede";
                 s.nomeSolicitante = reader["NomeCompleto"].ToString();
                 s.andar = reader["andar"].ToString();
                 s.localDaSolicitacao = reader["local"].ToString();
-                s.descricaoCentroCusto = reader["descricaoCentroDeCusto"].ToString();               
+                s.descricaoCentroCusto = reader["descricaoCentroDeCusto"].ToString();
                 s.descServicoSolicitado = reader["descricaoServico"].ToString();
                 s.dataSolicitacao = reader["dataSolicitacao"] != DBNull.Value ? Convert.ToDateTime(reader["dataSolicitacao"]) : DateTime.MinValue;
-                     
+
 
                 lista.Add(s);
             }
@@ -192,7 +193,7 @@ WHERE u.LoginRede = @loginRede";
                 s.localDaSolicitacao = reader["local"].ToString();
                 s.codPatrimonio = Convert.ToInt32(reader["codigoPatrimonio"]);
                 s.equipamentoDesc = reader["descricaoPatrimonio"].ToString();
-               s.descServicoSolicitado = reader["descricaoServico"].ToString();
+                s.descServicoSolicitado = reader["descricaoServico"].ToString();
                 s.obs = reader["obsSolicitacao"].ToString();
                 s.dataSolicitacao = reader["dataSolicitacao"] != DBNull.Value ? Convert.ToDateTime(reader["dataSolicitacao"]) : DateTime.MinValue;
                 //s.equipamentoDesc = reader["BEM_A_DESC"].ToString();
@@ -244,7 +245,7 @@ WHERE u.LoginRede = @loginRede";
                 s.nomeUsuario = reader["nomeUsuario"].ToString();
                 s.rfUsuario = reader["rfUsuario"].ToString();
                 s.ramalSolicitante = reader["ramalSolicitante"].ToString();
-                s.codigoCentroDeCusto = Convert.ToInt32( reader["codigoCentroDeCusto"].ToString());
+                s.codigoCentroDeCusto = Convert.ToInt32(reader["codigoCentroDeCusto"].ToString());
                 s.descricaoCentroDeCusto = reader["descricaoCentroDeCusto"].ToString();
                 s.nomeResponsavel = reader["nomeResponsavel"].ToString();
                 s.andar = reader["andar"].ToString();
@@ -311,9 +312,9 @@ WHERE u.LoginRede = @loginRede";
 
                 if (linhasAfetadas > 0)
                 {
-                    AtualizaStatusOS(s); // chama o update só se inseriu com sucesso
+                    AtualizaStatusOS(s.codStatus, s.id_solicitacao); // chama o update só se inseriu com sucesso
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -337,7 +338,7 @@ WHERE u.LoginRede = @loginRede";
 
                 SqlCommand cmd = new SqlCommand(strQuery, con);
                 cmd.Parameters.AddWithValue("@id_solicitacao", r.id_solicitacao);
-            
+
                 cmd.Parameters.AddWithValue("@codServicoRealizar", r.codServicoRealizar);
 
                 cmd.Parameters.AddWithValue("@dataRecebimento", r.dataRecebimento);
@@ -347,7 +348,7 @@ WHERE u.LoginRede = @loginRede";
 
                 if (linhasAfetadas > 0)
                 {
-                    AtualizaStatusOS(r); // chama o update só se inseriu com sucesso
+                    AtualizaStatusOS(r.codStatus, r.id_solicitacao); // chama o update só se inseriu com sucesso
                     sucesso = true;
                 }
             }
@@ -360,34 +361,8 @@ WHERE u.LoginRede = @loginRede";
         return sucesso;
     }
 
-    public static int AtualizaStatusOS(ReceberOS s)
-    {
-        int linhasAfetadas = 0;
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
-        {
-            try
-            {
-                string strQuery = @"
-                UPDATE [dbo].[Solicitacao]
-                SET [status] = @status
-                WHERE [id_solicitacao] = @idSolicitacao;";
 
-                SqlCommand cmd = new SqlCommand(strQuery, con);
-                cmd.Parameters.AddWithValue("@status", s.codStatus);
-                cmd.Parameters.AddWithValue("@idSolicitacao", s.id_solicitacao);
 
-                con.Open();
-                linhasAfetadas = cmd.ExecuteNonQuery(); // retorna quantas linhas foram atualizadas
-            }
-            catch (Exception ex)
-            {
-                string erro = ex.Message;
-                linhasAfetadas = 0;
-            }
-        }
-        return linhasAfetadas;
-    }
-         
     public static List<SolicitanteDados> CarregaDadosOS_Imprimir(int idOs)
     {
         var lista = new List<SolicitanteDados>();
@@ -467,7 +442,7 @@ WHERE u.LoginRede = @loginRede";
 
                 if (linhasAfetadas > 0)
                 {
-                    AtualizaStatusOS2(s); // chama o update só se inseriu com sucesso
+                    AtualizaStatusOS(s.codStatusSolicitacao,s.idSolicitacao); // chama o update só se inseriu com sucesso
                     sucesso = true;
                 }
             }
@@ -479,34 +454,7 @@ WHERE u.LoginRede = @loginRede";
         }
         return sucesso;
     }
-    public static int AtualizaStatusOS2(SolicitanteDados s)
-    {
-        int linhasAfetadas = 0;
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
-        {
-            try
-            {
-                string strQuery = @"
-                UPDATE [dbo].[Solicitacao]
-                SET [status] = @status
-                WHERE [id_solicitacao] = @idSolicitacao;";
-
-                SqlCommand cmd = new SqlCommand(strQuery, con);
-                cmd.Parameters.AddWithValue("@status", s.codStatusSolicitacao);
-                cmd.Parameters.AddWithValue("@idSolicitacao", s.idSolicitacao);
-
-                con.Open();
-                linhasAfetadas = cmd.ExecuteNonQuery(); // retorna quantas linhas foram atualizadas
-            }
-            catch (Exception ex)
-            {
-                string erro = ex.Message;
-                linhasAfetadas = 0;
-            }
-        }
-        return linhasAfetadas;
-    }
-
+   
     public static object carregaFuncionarios(int id)
     {
         var lista = new List<Funcionario>();
@@ -516,10 +464,12 @@ WHERE u.LoginRede = @loginRede";
             {
                 string strQuery;
                 strQuery = @"SELECT idFuncionario,nomeFuncionario
-  FROM [hspm_OS].[dbo].[View_Visualizar_Equipe_Funcionario_Finalizar] where id_solicitacao =" +id + " order by nomeFuncionario asc ";
+  FROM [hspm_OS].[dbo].[View_Visualizar_Equipe_Funcionario_Finalizar] where id_solicitacao =" + id + " order by nomeFuncionario asc ";
                 con.Open();
                 SqlCommand commd = new SqlCommand(strQuery, con);
                 SqlDataReader dr = commd.ExecuteReader();
+
+
                 while (dr.Read())
                 {
                     Funcionario c = new Funcionario();
@@ -537,7 +487,183 @@ WHERE u.LoginRede = @loginRede";
             return lista;
         }
     }
+    public static int AtualizaStatusOS(int status, int idSolicitacao)
+    {
+        int linhasAfetadas = 0;
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
+        {
+            try
+            {
+                string strQuery = @"
+                UPDATE [dbo].[Solicitacao]
+                SET [status] = @status
+                WHERE [id_solicitacao] = @idSolicitacao;";
+
+                SqlCommand cmd = new SqlCommand(strQuery, con);
+                cmd.Parameters.AddWithValue("@status", status);
+                cmd.Parameters.AddWithValue("@idSolicitacao", idSolicitacao);
+
+                con.Open();
+                linhasAfetadas = cmd.ExecuteNonQuery(); // retorna quantas linhas foram atualizadas
+            }
+            catch (Exception ex)
+            {
+                string erro = ex.Message;
+                linhasAfetadas = 0;
+            }
+        }
+        return linhasAfetadas;
+    }
+
+ 
+
+ 
+        // Converte "HH:mm" -> TimeSpan (C# 3.0 compatível)
+        private static bool TryParseHoraHHmm(string hhmm, out TimeSpan ts)
+        {
+            ts = TimeSpan.Zero;
+            if (string.IsNullOrEmpty(hhmm)) return false;
+
+            string s = hhmm.Trim();
+            Match m = Regex.Match(s, @"^(?<H>\d{1,2}):(?<M>[0-5]\d)$");
+            if (!m.Success) return false;
+
+            int h, mi;
+            if (!int.TryParse(m.Groups["H"].Value, out h)) return false;
+            if (!int.TryParse(m.Groups["M"].Value, out mi)) return false;
+
+            // limite de horas (ajuste se quiser 0–23)
+            if (h < 0 || h > 99) return false;
+
+            ts = new TimeSpan(h, mi, 0);
+            return true;
+        }
+
+        public static bool GravaFinalizacaoOSRecebida(FinalizadoOS s)
+        {
+            bool sucesso = true;
+
+            // Garantia de dataCadastro (fixo no momento da gravação, se vier default)
+            if (s.dataCadastro == default(DateTime))
+                s.dataCadastro = DateTime.Now;
+
+            // Prepara a hora como TimeSpan (gravar na coluna time)
+            TimeSpan? horaTs = null;
+            if (!string.IsNullOrEmpty(s.hora) && s.hora.Trim() != "")
+            {
+                TimeSpan ts;
+                if (TryParseHoraHHmm(s.hora, out ts))
+                    horaTs = ts;
+            }
+
+            string cs = ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString();
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                try
+                {
+                    const string sql = @"
+INSERT INTO dbo.finalizarOS
+    (id_solicitacao, dataFinalizacao, dataCadastro, hora)
+VALUES
+    (@id_solicitacao, @dataFinalizacao, @dataCadastro, @hora);";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        // id_solicitacao (int)
+                        cmd.Parameters.Add("@id_solicitacao", SqlDbType.Int).Value = s.idSolicitacao;
+
+                        // dataFinalizacao (datetime) — permite nulo se não informado
+                        if (s.dataFinalizacao != default(DateTime))
+                            cmd.Parameters.Add("@dataFinalizacao", SqlDbType.DateTime).Value = s.dataFinalizacao;
+                        else
+                            cmd.Parameters.Add("@dataFinalizacao", SqlDbType.DateTime).Value = DBNull.Value;
+
+                        // dataCadastro (datetime)
+                        cmd.Parameters.Add("@dataCadastro", SqlDbType.DateTime).Value = s.dataCadastro;
+
+                        // hora (time) — grava nulo se parsing falhar
+                        if (horaTs.HasValue)
+                            cmd.Parameters.Add("@hora", SqlDbType.Time).Value = horaTs.Value;
+                        else
+                            cmd.Parameters.Add("@hora", SqlDbType.Time).Value = DBNull.Value;
+
+                        // idUsuarioFinalizar (int)
+                        //cmd.Parameters.Add("@idUsuarioFinalizar", SqlDbType.Int).Value = idUsuarioFinalizar;
+
+                        con.Open();
+                        int linhas = cmd.ExecuteNonQuery();
+
+                        if (linhas > 0)
+                        {
+                            // Atualiza status somente após inserir com sucesso
+                            AtualizaStatusOS(s.status, s.idSolicitacao);
+                        }
+                        else
+                        {
+                            sucesso = false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // logue se tiver logger
+                    string erro = ex.Message;
+                    sucesso = false;
+                }
+            }
+
+            return sucesso;
+        }
+
+    public static bool GravaFuncionarioFinalizacao(FuncionarioFinalizacao funcionario)
+    {
+        bool sucesso = true;
+
+        using (SqlConnection con = new SqlConnection(
+            ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
+        {
+            try
+            {
+                string strQuery = @"
+                INSERT INTO [dbo].[Funcionarios_Finalizacao]
+                       ([id_funcionario]
+                       ,[id_solicitacao]
+                       ,[status]
+                       ,[dataCadastro])
+                 VALUES
+                       (@id_funcionario
+                       ,@id_solicitacao
+                       ,@status
+                       ,@dataCadastro)";
+
+                using (SqlCommand cmd = new SqlCommand(strQuery, con))
+                {
+                    // parâmetros
+                    cmd.Parameters.AddWithValue("@id_funcionario", funcionario.id_funcionario);
+                    cmd.Parameters.AddWithValue("@id_solicitacao", funcionario.idSolicitacao);
+                    cmd.Parameters.AddWithValue("@status", funcionario.status);
+                    cmd.Parameters.AddWithValue("@dataCadastro", funcionario.dataCadastro);
+
+                    con.Open();
+                    int linhasAfetadas = cmd.ExecuteNonQuery();
+
+                    sucesso = linhasAfetadas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Aqui você pode logar o erro em vez de engolir a exceção
+                string erro = ex.Message;
+                sucesso = false;
+            }
+        }
+
+        return sucesso;
+    }
+
 }
+
 
 //                s.statusSolicitacao = "Aguardando";
 //                break;

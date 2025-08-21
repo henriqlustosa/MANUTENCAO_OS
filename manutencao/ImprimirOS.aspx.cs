@@ -16,6 +16,18 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
     }
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["login"] == null)
+        {
+            Response.Redirect("~/login.aspx"); // Redireciona se não estiver logado
+            return;
+        }
+
+        // 2. Verifica se o perfil é diferente de "1" (Administrador)
+        List<int> perfis = Session["perfis"] as List<int>;
+        if (perfis == null || (!perfis.Contains(2)) && (!perfis.Contains(3)))
+        {
+            Response.Redirect("~/aberto/SemPermissao.aspx");
+        }
         if (!this.IsPostBack)
         {
             this.DataBind();

@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="container">
 
-         <h5 class="text-center">Receber Ordem de Serviço</h5>
+         <h5 class="text-center">Finalizar Ordem de Serviço</h5>
           <br />
              <asp:GridView ID="gdvFinalizarOS" AutoGenerateColumns="False" DataKeyNames="idSolicitacao"
             runat="server" OnRowCommand="gdvRecebeOS_RowCommand" CssClass="table table-bordered" width="100%">

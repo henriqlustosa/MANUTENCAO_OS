@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
@@ -26,6 +28,11 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             select1.DataTextField = "nome_funcionario";
             select1.DataValueField = "id_funcionario";
             select1.DataBind();
+            // ajuda mobile a mostrar teclado numérico
+            txtQtdHoras.Attributes["inputmode"] = "numeric";
+            txtQtdHoras.Attributes["autocomplete"] = "off";
+            txtQtdHoras.Attributes["placeholder"] = "00:00";
+            txtQtdHoras.MaxLength = 5; // HH:mms
             //CarregarDropDownSetoresSolicitados();
         }
         //if (ddlSetorSolicitado.SelectedItem.Text == "-- Selecione um setor --")
@@ -55,120 +62,119 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             LabelSetorSolicitado.Text = i.descricao;
             LabelServicoRealizar.Text = i.ServicoArealizar;
             LabelSetorSolicitado.Text = i.descricao;
-           
-            //if (i.obs == "")
-            //{
-            //    LabelObS.Text = i.obs;
-            //}
+          
             LabelObS.Text = i.obsSolicitacao;
-            //LabelNomeSolicitante.Text = i.nomeSolicitante;
+           
         }
     }
 
-    //private void CarregarDropDownSetoresSolicitados()
-    //{
-    //    List<SolicitanteDados> lista = OsDAO.BuscarSetoresSolicitados();
-
-    //    ddlSetorSolicitado.DataSource = lista;
-    //    ddlSetorSolicitado.DataTextField = "setorSolicitadoDesc";   // Vai aparecer no dropdown
-    //    ddlSetorSolicitado.DataValueField = "codSetorSolicitado";     // Vai ser o valor interno
-    //    ddlSetorSolicitado.DataBind();
-    //    if (lista.Count > 1)
-    //    {
-    //        ddlSetorSolicitado.Items.Insert(0, new ListItem("-- Selecione um setor --", ""));
-    //        //ddlSetor.Items[0].Attributes.CssStyle.Add("color", "red");
-    //    }
-
-    //}
-
-    //protected void ddlSetorSolicitado_SelectedIndexChanged(object sender, EventArgs e)
-    //{
-    //    if (ddlSetorSolicitado.SelectedItem.Text == "-- Selecione um setor --")
-    //    {
-    //        ddlSetorSolicitado.Attributes.Add("style", "color : red;");
-    //    }
-    //    else
-    //    {
-    //        ddlSetorSolicitado.Attributes.Add("style", "color : black;");
-    //        VG.codSetorSolicitado = Convert.ToInt32(ddlSetorSolicitado.SelectedValue);
-    //    }
-    //    txtServicoRealizar.Text = "";
-    //}
-
-    //[WebMethod]
-
-    //public static string[] getSetor(string prefixo)
-    //{
-    //    int v = VG.codSetorSolicitado;
-    //    List<string> clientes = new List<string>();
-    //    using (SqlConnection conn = new SqlConnection())
-    //    {
-    //        conn.ConnectionString = ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ConnectionString;
-    //        using (SqlCommand cmd = new SqlCommand())
-    //        {
-    //            if (prefixo == "*")
-    //            {
-    //                cmd.CommandText = @"SELECT TOP 100 [SetorManutencao], [idServico], [ServicoArealizar]
-    //                                FROM [hspm_OS].[dbo].[ServicoArealizar]
-    //                                WHERE SetorManutencao = @Setor order by ServicoArealizar";
-    //            }
-    //            else
-    //            {
-    //                cmd.CommandText = @"SELECT TOP 100 [SetorManutencao], [idServico], [ServicoArealizar]
-    //                                FROM [hspm_OS].[dbo].[ServicoArealizar]
-    //                                WHERE SetorManutencao = @Setor AND ServicoArealizar LIKE '%' + @Texto + '%' order by ServicoArealizar";
-    //                cmd.Parameters.AddWithValue("@Texto", prefixo);
-    //            }
-
-    //            cmd.Parameters.AddWithValue("@Setor", v);
-    //            cmd.Connection = conn;
-    //            conn.Open();
-
-    //            using (SqlDataReader sdr = cmd.ExecuteReader())
-    //            {
-    //                while (sdr.Read())
-    //                {
-    //                    string texto = sdr["ServicoArealizar"].ToString();
-    //                    string id = sdr["idServico"].ToString();
-    //                    clientes.Add(texto + ";" + id); // <-- Aqui é o formato esperado pelo JS
-    //                }                   
-    //            }
-    //            conn.Close();
-    //        }
-    //    }
-    //    return clientes.ToArray();
-    //}
+  
 
 
     protected void btnGravarComplementoOS_Click(object sender, EventArgs e)
     {
-        //if (ddlSetorSolicitado.SelectedItem.Text == "-- Selecione um setor --")
-        //{
-        //    ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Informe o setor Solicitado!');", true);
-        //    return;
-        //}
-        //if (txtServicoRealizar.Text.Length < 2)
-        //{
-        //    ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Informe o serviço Solicitado!');", true);
-        //    return;
-        //}
-        //ReceberOS r = new ReceberOS(Convert.ToInt32(LabelID_OS.Text), Convert.ToInt32(hfCustomerId.Value), 6);
+        // Data de finalização (já tratada antes): exemplo C# 3
+        CultureInfo cultura = new CultureInfo("pt-BR");
+        DateTime? dataFinalizacao = null;
+        if (!string.IsNullOrEmpty(txtDataFinalizacao.Text) && txtDataFinalizacao.Text.Trim() != "")
+        {
+            DateTime dt;
+            if (DateTime.TryParseExact(txtDataFinalizacao.Text.Trim(),
+                                       "dd/MM/yyyy HH:mm",
+                                       cultura,
+                                       DateTimeStyles.None,
+                                       out dt))
+            {
+                dataFinalizacao = dt;
+            }
+            else
+            {
+                // TODO: exibir mensagem de data inválida, se quiser
+            }
+        }
+
+       
+
+        FinalizadoOS r = new FinalizadoOS(Convert.ToInt32(LabelID_OS.Text), dataFinalizacao, txtQtdHoras.Text, 5);
 
 
-        //bool sucesso = OsDAO.GravaSolicitacaoOSRecebida(r);
-        //if (sucesso == true)
-        //{
-        //    string answer = "Gravada com Sucesso!";
-        //    ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
-        //                "alert('" + answer + "'); window.location.href='ReceberOS.aspx';", true);
-        //    return;
+        bool sucesso = OsDAO.GravaFinalizacaoOSRecebida(r);
+      
 
-        //}
-        //else
-        //{
-        //    ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Não foi possivel atulizar a OS!');", true);
-        //    return;
-        //}
+        List<FuncionarioFinalizacao> funcionarios = new List<FuncionarioFinalizacao>();
+        // Gravação do funcionário responsável pela finalização
+        for (int i = 0; i < select1.Items.Count; i++)
+        {
+            if (select1.Items[i].Selected)
+            {
+
+                FuncionarioFinalizacao funcionario = new FuncionarioFinalizacao(Convert.ToInt32(LabelID_OS.Text), int.Parse(select1.Items[i].Value));
+
+                funcionarios.Add(funcionario);
+            }
+
+        }
+        if (funcionarios.Count > 0)
+        {
+            // Gravação dos funcionários selecionados
+            foreach (var funcionario in funcionarios)
+            {
+            
+              
+                bool sucessoFuncionario = OsDAO.GravaFuncionarioFinalizacao(funcionario);
+                if (!sucessoFuncionario)
+                {
+                    ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro ao gravar funcionário responsável!');", true);
+                    return;
+                }
+            }
+        }
+
+        if (sucesso == true)
+        {
+            string answer = "Gravada com Sucesso!";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
+                        "alert('" + answer + "'); window.location.href='FinalizarOS.aspx';", true);
+            return;
+
+        }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Não foi possivel atulizar a OS!');", true);
+            return;
+        }
+    }
+
+    private static bool TryParseHHmm(string hhmm, out TimeSpan ts)
+    {
+        ts = TimeSpan.Zero;
+        if (string.IsNullOrEmpty(hhmm)) return false;
+
+        string s = hhmm.Trim();
+        // Aceita "H:mm" ou "HH:mm"
+        Match m = Regex.Match(s, @"^(?<H>\d{1,2}):(?<M>[0-5]\d)$");
+        if (!m.Success) return false;
+
+        int h, mi;
+        if (!int.TryParse(m.Groups["H"].Value, out h)) return false;
+        if (!int.TryParse(m.Groups["M"].Value, out mi)) return false;
+
+        // permite 0–99 horas (ajuste se quiser limitar a 23)
+        if (h < 0 || h > 99) return false;
+
+        ts = new TimeSpan(h, mi, 0);
+        return true;
+    }
+
+    private static decimal TimeSpanToDecimalHours(TimeSpan ts)
+    {
+        return (decimal)ts.TotalMinutes / 60m;
+    }
+
+
+    public static bool IsNullOrWhiteSpace(string value)
+    {
+        return value == null || value.Trim().Length == 0;
     }
 
 }

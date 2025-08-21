@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CadastroDeUsuario.aspx.cs" Inherits="administrativo_CadastroDeUsuario" %>
+﻿  <%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CadastroDeUsuario.aspx.cs" Inherits="administrativo_CadastroDeUsuario" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

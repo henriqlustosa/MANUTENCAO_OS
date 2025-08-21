@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
@@ -13,15 +14,30 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
     public static class VG
     {
         public static int codSetorSolicitado { get; set; }
+        public static int idOS { get; set; }
     }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!this.IsPostBack)
         {
+            if (Session["login"] == null)
+            {
+                Response.Redirect("~/login.aspx"); // Redireciona se não estiver logado
+                return;
+            }
+
+            // 2. Verifica se o perfil é diferente de "1" (Administrador)
+            List<int> perfis = Session["perfis"] as List<int>;
+            if (perfis == null || (!perfis.Contains(2)) && (!perfis.Contains(3)))
+            {
+                Response.Redirect("~/aberto/SemPermissao.aspx");
+            }
             string id1 = Request.QueryString["idOS"];
             int idOs = Convert.ToInt32(id1);
             carregaDados_OSreceber(idOs);
             CarregarDropDownSetoresSolicitados();
+            VG.idOS = idOs;
         }
         if (ddlSetorSolicitado.SelectedItem.Text == "-- Selecione um setor --")
         {
@@ -131,7 +147,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
         }
         return clientes.ToArray();
     }
-        
+
 
     protected void btnGravarComplementoOS_Click(object sender, EventArgs e)
     {
@@ -140,28 +156,37 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Informe o setor Solicitado!');", true);
             return;
         }
-        if (txtServicoRealizar.Text.Length <2)
+        if (txtServicoRealizar.Text.Length < 2)
         {
             ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Informe o serviço Solicitado!');", true);
             return;
         }
-        ReceberOS r = new ReceberOS(Convert.ToInt32(LabelID_OS.Text), Convert.ToInt32(hfCustomerId.Value),2);
-    
+        ReceberOS r = new ReceberOS(Convert.ToInt32(LabelID_OS.Text), Convert.ToInt32(hfCustomerId.Value), 2);
 
-       bool sucesso = OsDAO.GravaSolicitacaoOSRecebida(r);
-        if (sucesso==true)
+
+        bool sucesso = OsDAO.GravaSolicitacaoOSRecebida(r);
+        if (sucesso)
         {
-            string answer = "Gravada com Sucesso!";
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
-                        "alert('" + answer + "'); window.location.href='ReceberOS.aspx';", true);
+            Thread.Sleep(1000);
+            // Script único que mostra mensagem e pergunta sobre impressão
+            //alert('Gravada com Sucesso!');
+            string script = @"
+        
+        if(confirm('Deseja imprimir a OS agora?')) {
+            window.location='ImprimirOS.aspx?idOS=" + VG.idOS + @"';
+        } else {
+            window.location='ReceberOS.aspx';
+        }";
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "ConfirmaImpressao", script, true);
             return;
-          
         }
         else
         {
-            ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Não foi possivel atulizar a OS!');", true);
+            ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Não foi possível atualizar a OS!');", true);
             return;
         }
+    
     }
 
     protected void btnRecusar_Click(object sender, EventArgs e)

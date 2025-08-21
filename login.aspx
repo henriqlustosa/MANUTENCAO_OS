@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ordem de Serviço</title>    
+    <title>Ordem de Serviço - Manutenção</title>    
     
     <link href="css/login.css?v=1" rel="stylesheet" />
 </head>
 <body>
-    <div class="login__titulo">Ordem de Serviço</div>
+    <div class="login__titulo">Ordem de Serviço - Manutenção</div>
     <form id="form1" runat="server" style="width: 65%">
         <div class="login__container">
             <div class="login__imagem">

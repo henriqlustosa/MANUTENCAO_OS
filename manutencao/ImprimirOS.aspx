@@ -35,7 +35,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
       <!-- Botão fora do Panel, não será impresso -->
-    <asp:Button ID="btnImprimir" runat="server"
+    <asp:Button ID="btnImprimir" CssClass="btn btn-primary" runat="server"
         Text="Imprimir OS"
         OnClientClick='<%# "printPanel(\"" + pnlOS.ClientID + "\"); return false;" %>' />
     <!-- Painel que será impresso -->
@@ -112,17 +112,18 @@
                     <asp:Label ID="LabelObS" runat="server" Text="Sem Dados"></asp:Label>
                 </div>
             </div>
-            <br />
+            
             <hr />
             <br />
-            <div class="row">
+            <br />
+        <%--    <div class="row">
                 <div class="col-auto">
                     <b>Existe condições técnicas para execução dos serviços?</b>&nbsp;&nbsp;&nbsp;
                     <asp:TextBox ID="TextBox1" runat="server" Width="30"></asp:TextBox>&nbsp; SIM &nbsp;
                     <asp:TextBox ID="TextBox2" runat="server" Width="30"></asp:TextBox>&nbsp; NÃO
                 </div>
             </div>
-            <br />
+            <br />--%>
             <div class="row">
                 <b>Serviço executado:</b>
                 <hr />
@@ -137,6 +138,10 @@
                 <hr />
             </div>
             <br />
+             <div class="row">
+     <hr />
+ </div>
+ <br />
             <div class="row">
                 <b>Material utilizado:</b>
                 <hr />
@@ -148,7 +153,10 @@
             <br />
             <div class="row">
                 <hr />
+                <br />
             </div>
+      
+ <br /><br />
             <table style="width: 100%; border-collapse: collapse; font-size: 12pt; margin-top: 10px;">
                 <tr>
                     <td style="width: 22%;"><b>Nº de funcionários:</b> _____</td>
