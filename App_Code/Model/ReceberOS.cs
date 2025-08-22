@@ -13,16 +13,20 @@ public class ReceberOS
     public string justificativa_recusar { get; set; }
     public DateTime dataRecebimento { get; set; }
 
+
+    public int idUsuarioReceber { get; set; }
+
     public int codStatus { get; set; }
 
     // Construtor com parâmetros    
-    public ReceberOS(int id_solicitacao, int codServicoRealizar, int codStatus )
+    public ReceberOS(int id_solicitacao, int codServicoRealizar, int codStatus, int idUsuarioReceber)
     {
         this.id_solicitacao = id_solicitacao;
         this.codServicoRealizar = codServicoRealizar;
         this.codStatus = codStatus;
         this.justificativa_recusar = null;
         this.dataRecebimento = DateTime.Now; // data e hora atuais
+        this.idUsuarioReceber = idUsuarioReceber;
     }
     // Construtor vazio (sem parâmetros)
     public ReceberOS()

@@ -16,6 +16,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
     public static class VG
     {
         public static int codSetorSolicitado { get; set; }
+        public static string login { get; set; }
     }
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -33,6 +34,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             txtQtdHoras.Attributes["autocomplete"] = "off";
             txtQtdHoras.Attributes["placeholder"] = "00:00";
             txtQtdHoras.MaxLength = 5; // HH:mms
+            VG.login = Session["login"].ToString();
             //CarregarDropDownSetoresSolicitados();
         }
         //if (ddlSetorSolicitado.SelectedItem.Text == "-- Selecione um setor --")
@@ -68,7 +70,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
         }
     }
 
-  
+
 
 
     protected void btnGravarComplementoOS_Click(object sender, EventArgs e)
@@ -93,9 +95,9 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             }
         }
 
-       
 
-        FinalizadoOS r = new FinalizadoOS(Convert.ToInt32(LabelID_OS.Text), dataFinalizacao, txtQtdHoras.Text, 5);
+
+        FinalizadoOS r = new FinalizadoOS(Convert.ToInt32(LabelID_OS.Text), dataFinalizacao, txtQtdHoras.Text, 5, OsDAO.ObterIdPorLogin(VG.login));
 
 
         bool sucesso = OsDAO.GravaFinalizacaoOSRecebida(r);

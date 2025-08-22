@@ -12,7 +12,38 @@ using System.Web;
 /// </summary>
 public class OsDAO
 {
-    public static List<ConsultasCentroDeCusto> carregaCentroDeCusto()
+    private static readonly string connectionString =
+       ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString();
+    /// <summary>
+    /// Retorna o UsuarioId a partir do LoginRede.
+    /// </summary>
+    public static int ObterIdPorLogin(string loginRede)
+    {
+        int usuarioId = 0;
+
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            string query = @"
+                SELECT TOP 1 UsuarioId
+                FROM dbo.Usuarios
+                WHERE LoginRede = @loginRede
+                  AND Ativo = 1";
+
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@loginRede", loginRede);
+
+                con.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                    usuarioId = Convert.ToInt32(result);
+            }
+        }
+
+        return usuarioId;
+    }
+
+public static List<ConsultasCentroDeCusto> carregaCentroDeCusto()
     {
         var lista = new List<ConsultasCentroDeCusto>();
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
@@ -333,8 +364,8 @@ WHERE u.LoginRede = @loginRede";
             try
             {
                 string strQuery = @"INSERT INTO [dbo].[receberOS]
-                                ([id_solicitacao], [codServicoRealizar], [dataRecebimento])
-                                VALUES (@id_solicitacao, @codServicoRealizar, @dataRecebimento)";
+                                ([id_solicitacao], [codServicoRealizar], [dataRecebimento], [idUsuarioReceber])
+                                VALUES (@id_solicitacao, @codServicoRealizar, @dataRecebimento,@idUsuarioReceber )";
 
                 SqlCommand cmd = new SqlCommand(strQuery, con);
                 cmd.Parameters.AddWithValue("@id_solicitacao", r.id_solicitacao);
@@ -342,6 +373,7 @@ WHERE u.LoginRede = @loginRede";
                 cmd.Parameters.AddWithValue("@codServicoRealizar", r.codServicoRealizar);
 
                 cmd.Parameters.AddWithValue("@dataRecebimento", r.dataRecebimento);
+                cmd.Parameters.AddWithValue("@idUsuarioReceber", r.idUsuarioReceber);
 
                 con.Open();
                 int linhasAfetadas = cmd.ExecuteNonQuery();
@@ -514,12 +546,18 @@ WHERE u.LoginRede = @loginRede";
         }
         return linhasAfetadas;
     }
+    public static class StringHelper
+    {
+        public static bool IsNullOrWhiteSpace(string value)
+        {
+            return string.IsNullOrEmpty(value) || value.Trim().Length == 0;
+        }
+    }
 
- 
 
- 
-        // Converte "HH:mm" -> TimeSpan (C# 3.0 compatível)
-        private static bool TryParseHoraHHmm(string hhmm, out TimeSpan ts)
+
+    // Converte "HH:mm" -> TimeSpan (C# 3.0 compatível)
+    private static bool TryParseHoraHHmm(string hhmm, out TimeSpan ts)
         {
             ts = TimeSpan.Zero;
             if (string.IsNullOrEmpty(hhmm)) return false;
@@ -538,83 +576,105 @@ WHERE u.LoginRede = @loginRede";
             ts = new TimeSpan(h, mi, 0);
             return true;
         }
+    private static int? TryParseDuracaoParaMinutos(string texto)
+    {
+        if (StringHelper.IsNullOrWhiteSpace(texto))
+            return null;
 
-        public static bool GravaFinalizacaoOSRecebida(FinalizadoOS s)
+        texto = texto.Trim();
+
+        // Somente horas? (ex.: "50")
+        if (!texto.Contains(":"))
         {
-            bool sucesso = true;
+            if (int.TryParse(texto, out int horasInteiras) && horasInteiras >= 0)
+                return horasInteiras * 60;
+            return null;
+        }
 
-            // Garantia de dataCadastro (fixo no momento da gravação, se vier default)
-            if (s.dataCadastro == default(DateTime))
-                s.dataCadastro = DateTime.Now;
+        // Tem ":" -> tentar HHH:MM(:SS)
+        var partes = texto.Split(':');
+        if (partes.Length < 2) return null;
 
-            // Prepara a hora como TimeSpan (gravar na coluna time)
-            TimeSpan? horaTs = null;
-            if (!string.IsNullOrEmpty(s.hora) && s.hora.Trim() != "")
+        if (!int.TryParse(partes[0], out int horas)) return null;
+        if (!int.TryParse(partes[1], out int minutos)) return null;
+        if (horas < 0 || minutos < 0 || minutos > 59) return null;
+
+        // Ignora segundos se houver
+        // (Se quiser arredondar por segundos, pode ler partes[2] e tratar)
+        return (horas * 60) + minutos;
+    }
+
+    public static bool GravaFinalizacaoOSRecebida(FinalizadoOS s)
+    {
+        bool sucesso = true;
+
+        // Garante dataCadastro
+        if (s.dataCadastro == default(DateTime))
+            s.dataCadastro = DateTime.Now;
+
+        // Converte s.hora -> total de minutos (int)
+        int? minutos = TryParseDuracaoParaMinutos(s.hora);
+
+        string cs = ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString();
+
+        using (SqlConnection con = new SqlConnection(cs))
+        {
+            try
             {
-                TimeSpan ts;
-                if (TryParseHoraHHmm(s.hora, out ts))
-                    horaTs = ts;
-            }
-
-            string cs = ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString();
-
-            using (SqlConnection con = new SqlConnection(cs))
-            {
-                try
-                {
-                    const string sql = @"
+                const string sql = @"
 INSERT INTO dbo.finalizarOS
-    (id_solicitacao, dataFinalizacao, dataCadastro, hora)
+    (id_solicitacao, dataFinalizacao, dataCadastro, qtdMinutos, idUsuarioFinalizar)
 VALUES
-    (@id_solicitacao, @dataFinalizacao, @dataCadastro, @hora);";
+    (@id_solicitacao, @dataFinalizacao, @dataCadastro, @qtdMinutos, @idUsuarioFinalizar);";
 
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    // id_solicitacao (int)
+                    cmd.Parameters.Add("@id_solicitacao", SqlDbType.Int).Value = s.idSolicitacao;
+
+                    // dataFinalizacao (datetime) — permite nulo se não informado
+                    if (s.dataFinalizacao != default(DateTime))
+                        cmd.Parameters.Add("@dataFinalizacao", SqlDbType.DateTime).Value = s.dataFinalizacao;
+                    else
+                        cmd.Parameters.Add("@dataFinalizacao", SqlDbType.DateTime).Value = DBNull.Value;
+
+                    // dataCadastro (datetime)
+                    cmd.Parameters.Add("@dataCadastro", SqlDbType.DateTime).Value = s.dataCadastro;
+
+                    // qtdMinutos (int) — nulo se não informado/parse inválido
+                    if (minutos.HasValue)
+                        cmd.Parameters.Add("@qtdMinutos", SqlDbType.Int).Value = minutos.Value;
+                    else
+                        cmd.Parameters.Add("@qtdMinutos", SqlDbType.Int).Value = DBNull.Value;
+
+                    // idUsuarioFinalizar (int)
+                    cmd.Parameters.Add("@idUsuarioFinalizar", SqlDbType.Int).Value = s.idUsuarioFinalizar;
+
+                    con.Open();
+                    int linhas = cmd.ExecuteNonQuery();
+
+                    if (linhas > 0)
                     {
-                        // id_solicitacao (int)
-                        cmd.Parameters.Add("@id_solicitacao", SqlDbType.Int).Value = s.idSolicitacao;
-
-                        // dataFinalizacao (datetime) — permite nulo se não informado
-                        if (s.dataFinalizacao != default(DateTime))
-                            cmd.Parameters.Add("@dataFinalizacao", SqlDbType.DateTime).Value = s.dataFinalizacao;
-                        else
-                            cmd.Parameters.Add("@dataFinalizacao", SqlDbType.DateTime).Value = DBNull.Value;
-
-                        // dataCadastro (datetime)
-                        cmd.Parameters.Add("@dataCadastro", SqlDbType.DateTime).Value = s.dataCadastro;
-
-                        // hora (time) — grava nulo se parsing falhar
-                        if (horaTs.HasValue)
-                            cmd.Parameters.Add("@hora", SqlDbType.Time).Value = horaTs.Value;
-                        else
-                            cmd.Parameters.Add("@hora", SqlDbType.Time).Value = DBNull.Value;
-
-                        // idUsuarioFinalizar (int)
-                        //cmd.Parameters.Add("@idUsuarioFinalizar", SqlDbType.Int).Value = idUsuarioFinalizar;
-
-                        con.Open();
-                        int linhas = cmd.ExecuteNonQuery();
-
-                        if (linhas > 0)
-                        {
-                            // Atualiza status somente após inserir com sucesso
-                            AtualizaStatusOS(s.status, s.idSolicitacao);
-                        }
-                        else
-                        {
-                            sucesso = false;
-                        }
+                        // Atualiza status somente após inserir com sucesso
+                        AtualizaStatusOS(s.status, s.idSolicitacao);
+                    }
+                    else
+                    {
+                        sucesso = false;
                     }
                 }
-                catch (Exception ex)
-                {
-                    // logue se tiver logger
-                    string erro = ex.Message;
-                    sucesso = false;
-                }
             }
-
-            return sucesso;
+            catch (Exception ex)
+            {
+                // logue se tiver logger
+                string erro = ex.Message;
+                sucesso = false;
+            }
         }
+
+        return sucesso;
+    }
+
 
     public static bool GravaFuncionarioFinalizacao(FuncionarioFinalizacao funcionario)
     {

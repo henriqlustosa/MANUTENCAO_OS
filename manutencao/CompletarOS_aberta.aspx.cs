@@ -15,6 +15,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
     {
         public static int codSetorSolicitado { get; set; }
         public static int idOS { get; set; }
+        public static string login { get; set; }
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -38,6 +39,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             carregaDados_OSreceber(idOs);
             CarregarDropDownSetoresSolicitados();
             VG.idOS = idOs;
+            VG.login = Session["login"].ToString();
         }
         if (ddlSetorSolicitado.SelectedItem.Text == "-- Selecione um setor --")
         {
@@ -161,7 +163,7 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
             ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Informe o serviço Solicitado!');", true);
             return;
         }
-        ReceberOS r = new ReceberOS(Convert.ToInt32(LabelID_OS.Text), Convert.ToInt32(hfCustomerId.Value), 2);
+        ReceberOS r = new ReceberOS(Convert.ToInt32(LabelID_OS.Text), Convert.ToInt32(hfCustomerId.Value), 2, OsDAO.ObterIdPorLogin(VG.login));
 
 
         bool sucesso = OsDAO.GravaSolicitacaoOSRecebida(r);
