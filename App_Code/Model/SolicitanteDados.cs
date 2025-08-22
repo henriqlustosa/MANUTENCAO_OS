@@ -23,7 +23,7 @@ public class SolicitanteDados
     public string localDaSolicitacao { get; set; }
     public string descServicoSolicitado { get; set; }
     public string obs { get; set; }
-    public int codRespCentroCusto { get; set; }
+    public int codRespCentroCusto { get; set; }  
     public string ramalSolicitante { get; set; }
     public string ramalRespSetor { get; set; }
     public int idSolicitacao { get; set; }
@@ -34,4 +34,5 @@ public class SolicitanteDados
     public string motivoDaRecusa { get; set; }
     public string servicoSolicitadoDesc { get; set; }
 
+    public int rfUsuario { get; set; }
 }
