@@ -176,5 +176,26 @@ public partial class manutencao_CompletarOS_aberta : System.Web.UI.Page
     {
         return value == null || value.Trim().Length == 0;
     }
+    protected void btnRecusar_Click(object sender, EventArgs e)
+    {
+        ReceberOS r = new ReceberOS();
+        r.id_solicitacao = Convert.ToInt32(LabelID_OS.Text);
+        string motivoRecusa = "Solicitação Recusada - Motivo: " + txtMotivoRecusa.Text.Trim();
+        r.justificativa_recusar = motivoRecusa;
+        r.codStatus =11; // 11 = Recusada   
+        bool sucesso = OsDAO.AtualizaSolicitacaoOSRecebidaRecusa(r);
+        if (sucesso == true)
+        {
+            string answer = "Recusa gravada com Sucesso!";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "redirect",
+                        "alert('" + answer + "'); window.location.href='ReceberOS.aspx';", true);
+            return;
 
+        }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "mensagem", "alert('Erro! \\n Não foi possivel atulizar a OS!');", true);
+            return;
+        }
+    }
 }

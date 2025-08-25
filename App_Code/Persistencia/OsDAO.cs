@@ -325,6 +325,41 @@ WHERE u.LoginRede = @loginRede";
         return sucesso;
     }
 
+    public static bool AtualizaSolicitacaoOSRecebidaRecusa(ReceberOS s)
+    {
+        bool sucesso = true;
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["hspm_OSConnectionString"].ToString()))
+        {
+            try
+            {
+                string strQuery = @"UPDATE [dbo].[receberOS]
+                                SET justificativa_recusar = @justificativa_recusar,
+                                    dataRecebimento = @dataRecebimento
+                                WHERE id_solicitacao = @id_solicitacao";
+
+                SqlCommand cmd = new SqlCommand(strQuery, con);
+                cmd.Parameters.AddWithValue("@id_solicitacao", s.id_solicitacao);
+                cmd.Parameters.AddWithValue("@justificativa_recusar", s.justificativa_recusar);
+                cmd.Parameters.AddWithValue("@dataRecebimento", s.dataRecebimento);
+
+                con.Open();
+                int linhasAfetadas = cmd.ExecuteNonQuery();
+
+                if (linhasAfetadas > 0)
+                {
+                    AtualizaStatusOS(s.codStatus, s.id_solicitacao); // mantém a mesma lógica que você já usa
+                }
+            }
+            catch (Exception ex)
+            {
+                string erro = ex.Message;
+                sucesso = false;
+            }
+        }
+        return sucesso;
+    }
+
+
     public static bool GravaSolicitacaoOSRecebida(ReceberOS r)
     {
         bool sucesso = false;

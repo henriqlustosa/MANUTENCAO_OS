@@ -97,7 +97,7 @@
         <div class="row" style="justify-content: center; display: flex;">
             <asp:Button ID="btnGravarComplementoOS" runat="server" Text="Gravar" CssClass="btn btn-primary" Width="100" OnClick="btnGravarComplementoOS_Click" />
             <div class="col-1"></div>
-            <asp:Button ID="btnRecusar" runat="server" Text="Recusar" CssClass="btn btn-danger" Width="100" OnClientClick="abrirModalMotivo(); return false;" />
+            <asp:Button ID="btnRecusar" runat="server" Text="Recusar" CssClass="btn btn-danger" Width="100" OnClientClick="abrirModalMotivo(); return false;"  />
         </div>
                <!-- Modal Motivo da Recusa tem que ser no bootstrp 5 -->
 <div class="modal fade" id="modalMotivoRecusa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

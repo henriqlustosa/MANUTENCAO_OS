@@ -2,11 +2,11 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="css2/reset.css" rel="stylesheet" />
-    <link href="css2/SolicitarOS.css?v=2" rel="stylesheet" />
-    <link href="css2/estilos.css" rel="stylesheet" />
-    <link href="css2/modal.css" rel="stylesheet" />
-    <link href="css2/validacaoObrigatoria.css" rel="stylesheet" />
+    <link href="../css2/reset.css" rel="stylesheet" />
+    <link href="../css2/SolicitarOS.css?v=2" rel="stylesheet" />
+    <link href="../css2/estilos.css" rel="stylesheet" />
+    <link href="../css2/modal.css" rel="stylesheet" />
+    <link href="../css2/validacaoObrigatoria.css" rel="stylesheet" />
     <style>
         .erro-campo{border:2px solid red!important;background-color:#fff0f0;position:relative}
         .erro-campo::after{content:"*";color:red;position:absolute;top:6px;right:10px;font-weight:bold;font-size:16px}
