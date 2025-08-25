@@ -5,15 +5,18 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
   <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <%--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />--%>
+    <link href="../bootstrap5/dist/css/bootstrap.min.css" rel="stylesheet" />
 
   <!-- Chosen (multiselect) -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet" />
+<%--  <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet" />--%>
+    <link href="../css/chosen.min.css" rel="stylesheet" />
 
   <!-- Flatpickr (datepicker moderno) -->
-  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css" rel="stylesheet" />
-
+<%--  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />--%>
+    <link href="../css/flatpick.min.css" rel="stylesheet" />
+ <%-- <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css" rel="stylesheet" />--%>
+    <link href="../css/material_blue.css" rel="stylesheet" />
   <style>
     /* Mantém a barra vertical sempre presente para evitar “pulo” de layout */
     html { overflow-y: scroll; }
@@ -169,19 +172,42 @@
     </div>
 
     <!-- Botão -->
-    <div class="row mt-4">
-      <div class="col-12 d-flex justify-content-center">
+      <br /><br>
+    <div class="row">
+      <div class="col-8 d-flex justify-content-center">
         <asp:Button ID="btnGravarComplementoOS" runat="server" Text="Gravar"
           CssClass="btn btn-primary px-4" OnClick="btnGravarComplementoOS_Click"
           ValidationGroup="Salvar" />
       </div>
+       <%--  <div class="col-1"></div>--%>
+            <asp:Button ID="btnRecusar" runat="server" Text="Recusar" CssClass="btn btn-danger" Width="100" OnClientClick="abrirModalMotivo(); return false;" />
     </div>
+             <!-- Modal Motivo da Recusa tem que ser no bootstrp 5 -->
+<div class="modal fade" id="modalMotivoRecusa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Motivo da Recusa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <asp:TextBox ID="txtMotivoRecusa" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="4" placeholder="Digite o motivo da recusa"></asp:TextBox>
+      </div>
+      <div class="modal-footer">
+        <asp:Button ID="btnConfirmarRecusa" runat="server" Text="Confirmar Recusa" CssClass="btn btn-danger" OnClick="btnRecusar_Click" />
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+         <!--Fim Modal Motivo da Recusa -->
   </div>
 
   <!-- Scripts (ordem correta) -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+    <script src="../js/jquery-3.7.1.min.js"></script>
+    <script src="../bootstrap5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js_/chosen.jquery.min.js"></script>
 
   <!-- Flatpickr + locale pt -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -247,4 +273,48 @@
         });
     });
   </script>
+
+    <!-- feito por jr -->
+        <script type="text/javascript">
+
+        $(function () {
+
+            $("[id$=txtServicoRealizar]").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '<%=ResolveUrl("CompletarOS_aberta.aspx/getSetor") %>',
+                        data: "{ 'prefixo': '" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    label: item.split(';')[0],
+                                    val: item.split(';')[1]
+                                }
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("[id$=hfCustomerId]").val(i.item.val);
+                },
+                minLength: 1
+            });
+        });
+
+    </script>
+        <script>
+    function abrirModalMotivo() {
+        $('#modalMotivoRecusa').modal('show');
+    }
+</script>
+
 </asp:Content>

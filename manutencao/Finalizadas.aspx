@@ -21,7 +21,7 @@
                     <ItemTemplate>
                         <div class="form-inline">
                             <asp:LinkButton ID="lbDadosPaciente" CommandName="remover" CommandArgument='<%#((GridViewRow)Container).RowIndex%>'
-                                Class="btn btn-outline-danger" runat="server">Finalizar                                                                
+                                Class="btn btn-outline-primary" runat="server">Visualizar                                                                
                             </asp:LinkButton>
                         </div>
                     </ItemTemplate>
