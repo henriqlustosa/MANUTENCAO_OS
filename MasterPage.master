@@ -56,6 +56,16 @@
                                 <span class="ms-1 d-none d-sm-inline p-menu label-menu">Finalizar Os</span>
                             </a>
                             </li>
+                               <li class="space-item">
+                            <a href="../manutencao/Finalizadas.aspx" class="nav-link px-0">
+                                <span class="ms-1 d-none d-sm-inline p-menu label-menu">Finalizadas</span>
+                            </a>
+                            </li>
+                         <%--    <li class="space-item">
+                            <a href="../manutencao/SolicitarOS.aspx" class="nav-link px-0">
+                                <span class="ms-1 d-none d-sm-inline p-menu label-menu">Abrir Os</span>
+                            </a>
+                            </li>--%>
                                  <li class="space-item">
                                     <a href="../adm/CadastroDeUsuario.aspx" class="nav-link px-0">
                                         <span class="ms-1 d-none d-sm-inline p-menu label-menu">Cadastrar Usuário</span>

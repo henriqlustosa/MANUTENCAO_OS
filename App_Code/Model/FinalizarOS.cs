@@ -29,6 +29,9 @@ public class FinalizarOS
     public string BEM_A_DESC { get; set; }
     public int? status { get; set; }
 
+    public string dtOSfinalizada { get; set; }
+    public string qtdHorasServiço { get; set; }
+    public string nomeFuncionario_Operacional { get; set; }
     // Construtor vazio
     public FinalizarOS() { }
 }
